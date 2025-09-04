@@ -1,9 +1,16 @@
-# 🌿 Brew & Bloom
+<p align="center">
+  <img src="logo.png" alt="Brew & Bloom Logo" width="200"/>
+</p>
 
-Brew & Bloom is a pixel-themed focus and productivity web app that combines the Pomodoro technique with cozy gamification. Stay productive, earn rewards, and relax with your own virtual herb garden.
+<h1 align="center">🌿 Brew & Bloom</h1>
+<p align="center">A pixel-themed Pomodoro timer with a cozy herb garden and kitchen 🍵</p>
 
-✨ Features
-⏱️ Pomodoro Timer – Stay focused with work & break cycles.
-🌱 Herb Garden – Earn coins for completed sessions, buy seeds, and grow herbs.
-🍵 Kitchen – Unlock recipes and brew coffee or tea with your harvested herbs.
-🎮 Pixel Theme – Retro 8-bit style visuals for a cozy, game-like experience.
+## ✨ Overview
+**Brew & Bloom** helps you focus using the Pomodoro technique while rewarding your productivity. 
+Each completed focus session earns you coins to plant and grow herbs 🌱, unlock recipes, and brew cozy drinks 🍵 in a retro pixel-art world.
+## 🌟 Features
+- ⏱️ Pomodoro Timer for productivity
+- 🌱 Virtual herb garden (grow mint, basil, lavender...)
+- 🍵 Kitchen with recipes (coffee, teas, herbal blends)
+- 🎮 Pixel art theme for a retro cozy vibe
+- 💾 Progress tracking (your herbs keep growing!)
