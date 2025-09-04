@@ -1,20 +1,13 @@
+// frontend/src/routes/HomeTimer.tsx
 import DeskTimer from '../components/timer/DeskTimer'
-import TimerControls from '../components/timer/TimerControls'
+// import TimerControls from '../components/timer/TimerControls' // ← remove this import
 
 export default function HomeTimer() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center p-4">
-      {/* Background layer */}
-      <div
-        className="absolute inset-0 -z-10 bg-cover bg-center"
-        style={{ backgroundImage: "url('/src/assets/timer_page_background.png')" }}
-        aria-hidden
-      />
-
-      {/* Foreground content */}
-      <div className="w-full max-w-2xl grid gap-4">
+    <section className="min-h-[calc(100vh-120px)] flex items-center justify-center">
+      <div className="w-full max-w-md rounded-2xl border border-white/30 bg-white/30 backdrop-blur-md p-6 shadow-lg">
         <DeskTimer />
-        <TimerControls />
+
       </div>
     </section>
   )
