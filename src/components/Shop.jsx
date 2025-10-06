@@ -1,5 +1,6 @@
 import React from 'react';
 import { SEEDS } from '../data/seeds';
+import { getAssetPath } from '../utils/assets';
 
 export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seedInventory, setSeedInventory }) {
   
@@ -26,7 +27,7 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
       <div className="border-4 border-green-800 p-6 mb-6 text-center relative min-h-24 bg-amber-100 border-4 border-green-800">
         <div className="flex items-center justify-center gap-2 relative z-10">
           <img
-            src="/assets/coin.png"
+            src={getAssetPath('assets/coin.png')}
             alt="Coin"
             className="w-8 h-8"
             style={{ imageRendering: 'pixelated' }}
@@ -43,8 +44,8 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
               key={seed.id}
               className="border-4 border-green-800 p-6 text-center relative overflow-hidden min-h-80 bg-amber-100 border-4 border-green-800"
             >
-              <img 
-                src={`/assets/${seed.id}-grown.png`}
+              <img
+                src={getAssetPath(`assets/${seed.id}-grown.png`)}
                 alt={seed.name}
                 className="w-32 h-32 mx-auto mb-3 relative z-10"
                 style={{ imageRendering: 'pixelated' }}
@@ -68,7 +69,7 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
               >
                 <span>Buy -</span>
                 <img
-                  src="/assets/coin.png"
+                  src={getAssetPath('assets/coin.png')}
                   alt="Coin"
                   className="w-6 h-6"
                   style={{ imageRendering: 'pixelated' }}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SEEDS } from '../data/seeds';
 import SeedBag from './SeedBag';
 import ToolBar from './ToolBar';
+import { getAssetPath } from '../utils/assets';
 
 export default function Garden({ 
   garden, 
@@ -112,18 +113,18 @@ export default function Garden({
 
   const getPlotSprite = (plot) => {
     if (!plot.seedType) {
-      return { src: '/assets/seed.png', label: 'Empty' };
+      return { src: getAssetPath('assets/seed.png'), label: 'Empty' };
     }
-    
+
     const seed = SEEDS[plot.seedType];
     const progress = plot.wateredCount / seed.growthTime;
-    
+
     if (progress === 0) {
-      return { src: '/assets/planted-seed.png', label: 'Planted' };
+      return { src: getAssetPath('assets/planted-seed.png'), label: 'Planted' };
     } else if (progress < 1) {
-      return { src: `/assets/${plot.seedType}.png`, label: 'Growing' };
+      return { src: getAssetPath(`assets/${plot.seedType}.png`), label: 'Growing' };
     } else {
-      return { src: `/assets/${plot.seedType}-grown.png`, label: 'Ready!' };
+      return { src: getAssetPath(`assets/${plot.seedType}-grown.png`), label: 'Ready!' };
     }
   };
 

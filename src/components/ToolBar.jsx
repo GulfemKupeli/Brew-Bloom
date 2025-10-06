@@ -4,8 +4,8 @@ export default function ToolBar({ onOpenSeedBag, totalSeeds }) {
   const [hoveredTool, setHoveredTool] = useState(null);
 
   const tools = [
-    { id: 'wateringCan', name: 'Watering Can', icon: '/assets/watering-can.png' },
-    { id: 'scissors', name: 'Scissors', icon: '/assets/scissors.png' }
+    { id: 'wateringCan', name: 'Watering Can', icon: getAssetPath('assets/watering-can.png') },
+    { id: 'scissors', name: 'Scissors', icon: getAssetPath('assets/scissors.png') }
   ];
 
   const handleDragStart = (e, toolId) => {
@@ -27,7 +27,7 @@ export default function ToolBar({ onOpenSeedBag, totalSeeds }) {
             className="relative w-20 h-20 hover:scale-110 transition-transform"
           >
             <img
-              src="/assets/seedbag.png"
+              src={getAssetPath('assets/seedbag.png')}
               alt="Seed Bag"
               className="w-full h-full"
               style={{ imageRendering: 'pixelated' }}

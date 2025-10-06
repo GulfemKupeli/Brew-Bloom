@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SEEDS } from '../data/seeds';
+import { getAssetPath } from '../utils/assets';
 
 export default function BrewingStation({ recipe, inventory, onComplete, onCancel }) {
   const [brewingStep, setBrewingStep] = useState(0);
@@ -74,7 +75,7 @@ export default function BrewingStation({ recipe, inventory, onComplete, onCancel
             {isPouring && brewingStep <= ingredients.length && (
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 animate-bounce">
                 <img
-                  src={`/assets/${ingredients[brewingStep - 1][0]}-grown.png`}
+                  src={getAssetPath(`assets/${ingredients[brewingStep - 1][0]}-grown.png`)}
                   alt="Ingredient"
                   className="w-16 h-16"
                   style={{ imageRendering: 'pixelated' }}
@@ -116,7 +117,7 @@ export default function BrewingStation({ recipe, inventory, onComplete, onCancel
                   {addedIngredients.map((herb, idx) => (
                     <img
                       key={idx}
-                      src={`/assets/${herb}-grown.png`}
+                      src={getAssetPath(`assets/${herb}-grown.png`)}
                       alt={SEEDS[herb].name}
                       className="w-6 h-6 opacity-70"
                       style={{
@@ -161,7 +162,7 @@ export default function BrewingStation({ recipe, inventory, onComplete, onCancel
                   }`}
                 >
                   <img
-                    src={`/assets/${herb}-grown.png`}
+                    src={getAssetPath(`assets/${herb}-grown.png`)}
                     alt={SEEDS[herb].name}
                     className="w-6 h-6"
                     style={{ imageRendering: 'pixelated' }}

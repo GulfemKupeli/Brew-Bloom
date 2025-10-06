@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SEEDS } from '../data/seeds';
 import { RECIPES } from '../data/recipes';
 import BrewingStation from './BrewingStation';
+import { getAssetPath } from '../utils/assets';
 
 export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrewedDrinks, showToast }) {
   const [brewingRecipe, setBrewingRecipe] = useState(null);
@@ -68,7 +69,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
               {Object.entries(inventory).map(([herb, count]) => (
                 <div key={herb} className="text-center">
                   <img 
-                    src={`/assets/${herb}-grown.png`}
+                    src={getAssetPath(`assets/${herb}-grown.png`)}
                     alt={SEEDS[herb].name}
                     className="w-16 h-16 mx-auto mb-1"
                     style={{ imageRendering: 'pixelated' }}
@@ -91,7 +92,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                 <div key={drinkId} className="text-center">
                   {RECIPES[drinkId].image ? (
                     <img
-                      src={`/assets/${RECIPES[drinkId].image}`}
+                      src={getAssetPath(`assets/${RECIPES[drinkId].image}`)}
                       alt={RECIPES[drinkId].name}
                       className="w-16 h-16 mx-auto mb-1"
                       style={{ imageRendering: 'pixelated' }}
@@ -123,7 +124,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                 <div className="flex items-start gap-3 mb-2 relative z-10">
                   {recipe.image ? (
                     <img
-                      src={`/assets/${recipe.image}`}
+                      src={getAssetPath(`assets/${recipe.image}`)}
                       alt={recipe.name}
                       className="w-20 h-20 flex-shrink-0"
                       style={{ imageRendering: 'pixelated' }}
@@ -144,7 +145,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                       <div key={herb} className="flex justify-between text-base items-center">
                         <span className="flex items-center gap-2">
                           <img 
-                            src={`/assets/${herb}-grown.png`}
+                            src={getAssetPath(`assets/${herb}-grown.png`)}
                             alt={SEEDS[herb].name}
                             className="w-4 h-4 flex-shrink-0"
                             style={{ imageRendering: 'pixelated' }}

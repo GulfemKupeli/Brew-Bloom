@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Coffee, Sprout } from 'lucide-react';
+import { getAssetPath } from '../utils/assets';
 
 const DEBUG_MODE = true; // Set to false for normal use
 
@@ -105,7 +106,7 @@ export default function Timer({
           <div>
             <div className="text-3xl font-bold text-amber-600 flex items-center justify-center gap-2">
               <img
-                src="/assets/coin.png"
+                src={getAssetPath('assets/coin.png')}
                 alt="Coin"
                 className="w-8 h-8"
                 style={{ imageRendering: 'pixelated' }}
@@ -131,16 +132,16 @@ export default function Timer({
         className="border-4 border-green-800 shadow-2xl p-12 border-8 border-green-800 relative overflow-hidden bg-amber-100"
       >
         <div className="absolute top-4 left-4">
-          <img src="/assets/basil-grown.png" alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+          <img src={getAssetPath('assets/basil-grown.png')} alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
         </div>
         <div className="absolute top-4 right-4">
-          <img src="/assets/mint-grown.png" alt="Herb" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+          <img src={getAssetPath('assets/mint-grown.png')} alt="Herb" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
         </div>
         <div className="absolute bottom-4 left-8">
-          <img src="/assets/lavender-grown.png" alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+          <img src={getAssetPath('assets/lavender-grown.png')} alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
         </div>
         <div className="absolute bottom-4 right-8">
-          <img src="/assets/chamomile-grown.png" alt="Tea" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+          <img src={getAssetPath('assets/chamomile-grown.png')} alt="Tea" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
         </div>
 
         <div className="text-center mb-6 relative z-10">
@@ -226,7 +227,7 @@ export default function Timer({
                 Complete this session to earn
                 <span className="text-amber-700 text-xl flex items-center gap-1">
                   <img
-                    src="/assets/coin.png"
+                    src={getAssetPath('assets/coin.png')}
                     alt="Coin"
                     className="w-6 h-6"
                     style={{ imageRendering: 'pixelated' }}
