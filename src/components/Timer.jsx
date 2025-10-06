@@ -100,10 +100,18 @@ export default function Timer({
         <p className="text-green-700 text-lg">Grow your focus, bloom your garden</p>
       </div>
 
-      <div className="bg-white/80 backdrop-blur rounded-lg shadow-lg p-4 mb-8 border-4 border-green-800">
+      <div className="bg-white/80 backdrop-blur border-4 border-green-800 shadow-lg p-4 mb-8 border-4 border-green-800">
         <div className="flex justify-around items-center text-center">
           <div>
-            <div className="text-3xl font-bold text-amber-600">🪙 {coins}</div>
+            <div className="text-3xl font-bold text-amber-600 flex items-center justify-center gap-2">
+              <img
+                src="/assets/coin.png"
+                alt="Coin"
+                className="w-8 h-8"
+                style={{ imageRendering: 'pixelated' }}
+              />
+              {coins}
+            </div>
             <div className="text-sm text-green-700">Coins</div>
           </div>
           <div className="w-px h-12 bg-green-300"></div>
@@ -119,47 +127,59 @@ export default function Timer({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-amber-100 to-green-100 rounded-2xl shadow-2xl p-12 border-8 border-green-800 relative overflow-hidden">
-        <div className="absolute top-4 left-4 text-4xl">🪴</div>
-        <div className="absolute top-4 right-4 text-4xl">🌿</div>
-        <div className="absolute bottom-4 left-8 text-4xl">🌱</div>
-        <div className="absolute bottom-4 right-8 text-4xl">☕</div>
+      <div
+        className="border-4 border-green-800 shadow-2xl p-12 border-8 border-green-800 relative overflow-hidden bg-amber-100"
+      >
+        <div className="absolute top-4 left-4">
+          <img src="/assets/basil-grown.png" alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+        </div>
+        <div className="absolute top-4 right-4">
+          <img src="/assets/mint-grown.png" alt="Herb" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+        </div>
+        <div className="absolute bottom-4 left-8">
+          <img src="/assets/lavender-grown.png" alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+        </div>
+        <div className="absolute bottom-4 right-8">
+          <img src="/assets/chamomile-grown.png" alt="Tea" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+        </div>
 
-        <div className="text-center mb-6">
-          <div className={`inline-block px-6 py-2 rounded-full text-lg font-bold ${
-            isBreak ? 'bg-blue-500 text-white' : 'bg-green-600 text-white'
-          }`}>
-            {isBreak ? '☕ Break Time' : '🌱 Focus Time'}
+        <div className="text-center mb-6 relative z-10">
+          <div className={`inline-block px-6 py-2 text-lg font-bold border-4 ${
+            isBreak ? 'bg-blue-500 text-white border-blue-700' : 'bg-green-600 text-white border-green-800'
+          }`} style={{ imageRendering: 'pixelated' }}>
+            {isBreak ? 'Break Time' : 'Focus Time'}
           </div>
         </div>
 
-        <div className="text-center">
-          <div className="text-9xl font-bold text-green-800 mb-8 font-mono tracking-wider drop-shadow-lg">
+        <div className="text-center relative z-10">
+          <div className="text-9xl font-bold text-green-800 mb-8 tracking-wider drop-shadow-lg bg-amber-100/80 inline-block px-8 py-4 border-8 border-green-800" style={{ imageRendering: 'pixelated' }}>
             {formatTime(minutes, seconds)}
           </div>
         </div>
 
-        <div className="flex justify-center mb-8">
-          <div className="relative w-64 h-8 bg-green-200 rounded-full border-4 border-green-800 overflow-hidden">
-            <div 
+        <div className="flex justify-center mb-8 relative z-10">
+          <div className="relative w-64 h-8 bg-green-200 border-4 border-green-800 overflow-hidden" style={{ imageRendering: 'pixelated' }}>
+            <div
               className={`h-full transition-all duration-1000 ${
                 isBreak ? 'bg-blue-500' : 'bg-green-500'
               }`}
               style={{
-                width: `${((isBreak ? breakLength : focusLength) - minutes - (seconds > 0 ? 1 : 0)) / (isBreak ? breakLength : focusLength) * 100}%`
+                width: `${((isBreak ? breakLength : focusLength) - minutes - (seconds > 0 ? 1 : 0)) / (isBreak ? breakLength : focusLength) * 100}%`,
+                imageRendering: 'pixelated'
               }}
             ></div>
           </div>
         </div>
 
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-4 relative z-10">
           <button
             onClick={toggleTimer}
-            className={`flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg ${
+            className={`flex items-center gap-2 px-8 py-4 font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg border-4 ${
               isActive
-                ? 'bg-red-500 hover:bg-red-600 text-white'
-                : 'bg-green-600 hover:bg-green-700 text-white'
+                ? 'bg-red-500 hover:bg-red-600 text-white border-red-700'
+                : 'bg-green-600 hover:bg-green-700 text-white border-green-800'
             }`}
+            style={{ imageRendering: 'pixelated' }}
           >
             {isActive ? (
               <>
@@ -176,7 +196,8 @@ export default function Timer({
           
           <button
             onClick={resetTimer}
-            className="flex items-center gap-2 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg"
+            className="flex items-center gap-2 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg border-4 border-amber-700"
+            style={{ imageRendering: 'pixelated' }}
           >
             <RotateCcw className="w-6 h-6" />
             Reset
@@ -190,7 +211,8 @@ export default function Timer({
                 setMinutes(DEBUG_MODE ? 0 : focusLength);
                 setSeconds(DEBUG_MODE ? 10 : 0);
               }}
-              className="flex items-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg"
+              className="flex items-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg border-4 border-blue-700"
+              style={{ imageRendering: 'pixelated' }}
             >
               Skip Break
             </button>
@@ -198,10 +220,19 @@ export default function Timer({
         </div>
 
         {!isBreak && (
-          <div className="mt-8 text-center">
-            <div className="inline-block bg-amber-200 border-4 border-amber-600 rounded-lg px-6 py-3">
-              <p className="text-green-800 font-bold">
-                🪙 Complete this session to earn <span className="text-amber-700 text-xl">10 coins</span>!
+          <div className="mt-8 text-center relative z-10">
+            <div className="inline-block bg-amber-200 border-4 border-amber-600 px-6 py-3" style={{ imageRendering: 'pixelated' }}>
+              <p className="text-green-800 font-bold flex items-center justify-center gap-2">
+                Complete this session to earn
+                <span className="text-amber-700 text-xl flex items-center gap-1">
+                  <img
+                    src="/assets/coin.png"
+                    alt="Coin"
+                    className="w-6 h-6"
+                    style={{ imageRendering: 'pixelated' }}
+                  />
+                  10
+                </span>!
               </p>
             </div>
           </div>

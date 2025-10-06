@@ -22,18 +22,17 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
     <div className="max-w-6xl mx-auto p-8">
       <h2 className="text-4xl font-bold text-green-800 mb-6 text-center">Seed Shop</h2>
       
-      {/* Coins display with square sign background */}
-      <div 
-        className="rounded-lg p-6 mb-6 text-center relative min-h-24"
-        style={{
-          backgroundImage: 'url(/assets/square-sign.png)',
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          imageRendering: 'pixelated'
-        }}
-      >
-        <p className="text-2xl font-bold text-amber-600 relative z-10">Your Coins: {coins}</p>
+      {/* Coins display */}
+      <div className="border-4 border-green-800 p-6 mb-6 text-center relative min-h-24 bg-amber-100 border-4 border-green-800">
+        <div className="flex items-center justify-center gap-2 relative z-10">
+          <img
+            src="/assets/coin.png"
+            alt="Coin"
+            className="w-8 h-8"
+            style={{ imageRendering: 'pixelated' }}
+          />
+          <p className="text-2xl font-bold text-amber-600">{coins}</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -42,14 +41,7 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
           return (
             <div
               key={seed.id}
-              className="rounded-xl p-6 text-center relative overflow-hidden min-h-80"
-              style={{
-                backgroundImage: 'url(/assets/square-sign.png)',
-                backgroundSize: '100% 100%',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                imageRendering: 'pixelated'
-              }}
+              className="border-4 border-green-800 p-6 text-center relative overflow-hidden min-h-80 bg-amber-100 border-4 border-green-800"
             >
               <img 
                 src={`/assets/${seed.id}-grown.png`}
@@ -67,14 +59,21 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
               </p>
               <button
                 onClick={() => buySeed(seed.id)}
-                className={`w-full px-6 py-3 rounded-lg font-bold text-lg transition transform hover:scale-105 relative z-10 ${
+                className={`w-full px-6 py-3 border-4 border-green-800 font-bold text-lg transition transform hover:scale-105 relative z-10 flex items-center justify-center gap-2 ${
                   coins >= seed.price
                     ? 'bg-green-600 hover:bg-green-700 text-white'
                     : 'bg-gray-400 text-gray-700 cursor-not-allowed'
                 }`}
                 disabled={coins < seed.price}
               >
-                Buy - {seed.price}
+                <span>Buy -</span>
+                <img
+                  src="/assets/coin.png"
+                  alt="Coin"
+                  className="w-6 h-6"
+                  style={{ imageRendering: 'pixelated' }}
+                />
+                <span>{seed.price}</span>
               </button>
             </div>
           );

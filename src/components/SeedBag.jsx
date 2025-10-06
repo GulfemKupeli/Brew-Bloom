@@ -11,7 +11,7 @@ export default function SeedBag({ seedInventory, onClose }) {
   const availableSeeds = Object.entries(seedInventory).filter(([_, count]) => count > 0);
 
   return (
-    <div className="fixed top-24 right-8 bg-gradient-to-br from-amber-100 to-green-100 rounded-2xl border-8 border-green-800 p-6 w-80 shadow-2xl z-50">
+    <div className="fixed top-24 right-8 bg-gradient-to-br from-amber-100 to-green-100 border-4 border-green-800 border-8 border-green-800 p-6 w-80 shadow-2xl z-50">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-green-800">Seed Bag</h2>
         <button
@@ -40,7 +40,7 @@ export default function SeedBag({ seedInventory, onClose }) {
                   key={seedId}
                   draggable="true"
                   onDragStart={(e) => handleDragStart(e, seedId)}
-                  className="bg-white rounded-xl border-4 border-green-600 p-3 text-center cursor-grab active:cursor-grabbing hover:scale-105 transition transform shadow-lg"
+                  className="bg-white border-4 border-green-800 border-4 border-green-600 p-3 text-center cursor-grab active:cursor-grabbing hover:scale-105 transition transform shadow-lg"
                 >
                   <div className="text-4xl mb-1">{seed.emoji}</div>
                   <div className="font-bold text-green-800 text-xs">{seed.name}</div>

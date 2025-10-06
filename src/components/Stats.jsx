@@ -12,22 +12,22 @@ export default function Stats({ stats, unlockedAchievements }) {
       
       {/* Stats Overview */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-        <div className="bg-white/80 rounded-xl border-4 border-green-700 p-6 text-center">
+        <div className="bg-white/80 border-4 border-green-800 border-4 border-green-700 p-6 text-center">
           <div className="text-4xl mb-2">⏱️</div>
           <div className="text-3xl font-bold text-green-800">{stats.totalSessions}</div>
           <div className="text-sm text-green-600">Total Sessions</div>
         </div>
-        <div className="bg-white/80 rounded-xl border-4 border-green-700 p-6 text-center">
+        <div className="bg-white/80 border-4 border-green-800 border-4 border-green-700 p-6 text-center">
           <div className="text-4xl mb-2">🌱</div>
           <div className="text-3xl font-bold text-green-800">{stats.totalPlanted}</div>
           <div className="text-sm text-green-600">Seeds Planted</div>
         </div>
-        <div className="bg-white/80 rounded-xl border-4 border-green-700 p-6 text-center">
+        <div className="bg-white/80 border-4 border-green-800 border-4 border-green-700 p-6 text-center">
           <div className="text-4xl mb-2">✂️</div>
           <div className="text-3xl font-bold text-green-800">{stats.totalHarvested}</div>
           <div className="text-sm text-green-600">Herbs Harvested</div>
         </div>
-        <div className="bg-white/80 rounded-xl border-4 border-green-700 p-6 text-center">
+        <div className="bg-white/80 border-4 border-green-800 border-4 border-green-700 p-6 text-center">
           <div className="text-4xl mb-2">☕</div>
           <div className="text-3xl font-bold text-green-800">{stats.totalBrewed}</div>
           <div className="text-sm text-green-600">Drinks Brewed</div>
@@ -45,7 +45,7 @@ export default function Stats({ stats, unlockedAchievements }) {
             return (
               <div
                 key={achievement.id}
-                className={`rounded-xl border-4 p-6 text-center transition ${
+                className={`border-4 border-green-800 border-4 p-6 text-center transition ${
                   isUnlocked
                     ? 'bg-gradient-to-br from-yellow-100 to-amber-100 border-amber-500'
                     : 'bg-gray-200 border-gray-400 opacity-50'

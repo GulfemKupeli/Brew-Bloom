@@ -144,7 +144,12 @@ export default function Garden({
               key={plot.id}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, plot.id)}
-              className="bg-gradient-to-br from-amber-100 to-green-100 rounded-xl border-4 border-green-700 p-6 text-center hover:shadow-xl transition"
+              className="bg-amber-900 border-8 border-amber-950 p-6 text-center hover:shadow-xl transition"
+              style={{
+                imageRendering: 'pixelated',
+                background: 'linear-gradient(135deg, #78350f 0%, #92400e 25%, #78350f 50%, #854d0e 75%, #78350f 100%)',
+                boxShadow: 'inset 0 0 20px rgba(0,0,0,0.3)'
+              }}
             >
               <img 
                 src={sprite.src} 
@@ -152,10 +157,10 @@ export default function Garden({
                 className="w-16 h-16 mx-auto mb-3"
                 style={{ imageRendering: 'pixelated' }}
               />
-              <div className="font-bold text-green-800 mb-2">{sprite.label}</div>
-              
+              <div className="font-bold text-amber-100 mb-2 bg-amber-950/60 px-2 py-1 border-2 border-amber-950" style={{ imageRendering: 'pixelated' }}>{sprite.label}</div>
+
               {plot.seedType && (
-                <div className="text-sm text-green-600 mb-3">
+                <div className="text-sm text-blue-300 mb-3 bg-blue-950/60 px-2 py-1 border-2 border-blue-950" style={{ imageRendering: 'pixelated' }}>
                   {plot.wateredCount}/{SEEDS[plot.seedType].growthTime} 💧
                 </div>
               )}

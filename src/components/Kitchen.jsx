@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { SEEDS } from '../data/seeds';
 import { RECIPES } from '../data/recipes';
+import BrewingStation from './BrewingStation';
 
 export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrewedDrinks, showToast }) {
-  const [brewing, setBrewing] = useState(false);
+  const [brewingRecipe, setBrewingRecipe] = useState(null);
 
   const canBrewRecipe = (recipe) => {
     return Object.entries(recipe.ingredients).every(
@@ -11,55 +12,54 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
     );
   };
 
-  const brewRecipe = (recipeId) => {
+  const startBrewing = (recipeId) => {
     const recipe = RECIPES[recipeId];
-    
+
     if (!canBrewRecipe(recipe)) {
       showToast('Not enough ingredients!', '❌');
       return;
     }
 
-    setBrewing(true);
-    
-    setTimeout(() => {
-      const newInventory = { ...inventory };
-      Object.entries(recipe.ingredients).forEach(([herb, amount]) => {
-        newInventory[herb] -= amount;
-        if (newInventory[herb] === 0) delete newInventory[herb];
-      });
-      setInventory(newInventory);
+    setBrewingRecipe(recipe);
+  };
 
-      setBrewedDrinks(prev => ({
-        ...prev,
-        [recipeId]: (prev[recipeId] || 0) + 1
-      }));
+  const handleBrewingComplete = () => {
+    const newInventory = { ...inventory };
+    Object.entries(brewingRecipe.ingredients).forEach(([herb, amount]) => {
+      newInventory[herb] -= amount;
+      if (newInventory[herb] === 0) delete newInventory[herb];
+    });
+    setInventory(newInventory);
 
-      setBrewing(false);
-      showToast(`Brewed ${recipe.name}! ${recipe.effect}`, '✨');
-    }, 2000);
+    setBrewedDrinks(prev => ({
+      ...prev,
+      [brewingRecipe.id]: (prev[brewingRecipe.id] || 0) + 1
+    }));
+
+    showToast(`Brewed ${brewingRecipe.name}! ${brewingRecipe.effect}`, '✨');
+    setBrewingRecipe(null);
+  };
+
+  const handleBrewingCancel = () => {
+    setBrewingRecipe(null);
+    showToast('Brewing cancelled', '❌');
   };
 
   return (
     <div className="max-w-7xl mx-auto p-8">
       <h2 className="text-4xl font-bold text-green-800 mb-6 text-center">Kitchen</h2>
-      
-      {brewing && (
-        <div className="bg-amber-200 border-4 border-amber-600 rounded-lg p-6 mb-6 text-center animate-pulse">
-          <p className="text-2xl font-bold text-green-800">Brewing...</p>
-        </div>
+
+      {brewingRecipe && (
+        <BrewingStation
+          recipe={brewingRecipe}
+          inventory={inventory}
+          onComplete={handleBrewingComplete}
+          onCancel={handleBrewingCancel}
+        />
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div 
-          className="rounded-lg p-6 relative min-h-64"
-          style={{
-            backgroundImage: 'url(/assets/square-sign.png)',
-            backgroundSize: '100% 100%',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            imageRendering: 'pixelated'
-          }}
-        >
+        <div className="border-4 border-green-800 p-6 relative min-h-64 bg-amber-100 border-4 border-green-800">
           <h3 className="text-2xl font-bold text-green-800 mb-4 text-center relative z-10">Your Ingredients</h3>
           {Object.keys(inventory).length === 0 ? (
             <p className="text-center text-green-600 relative z-10">No herbs yet! Harvest from your garden!</p>
@@ -81,16 +81,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
           )}
         </div>
 
-        <div 
-          className="rounded-lg p-6 relative min-h-64"
-          style={{
-            backgroundImage: 'url(/assets/square-sign.png)',
-            backgroundSize: '100% 100%',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            imageRendering: 'pixelated'
-          }}
-        >
+        <div className="border-4 border-green-800 p-6 relative min-h-64 bg-amber-100 border-4 border-green-800">
           <h3 className="text-2xl font-bold text-green-800 mb-4 text-center relative z-10">Brewed Collection</h3>
           {Object.keys(brewedDrinks).length === 0 ? (
             <p className="text-center text-green-600 relative z-10">No drinks brewed yet!</p>
@@ -98,7 +89,16 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
             <div className="grid grid-cols-2 gap-4 relative z-10">
               {Object.entries(brewedDrinks).map(([drinkId, count]) => (
                 <div key={drinkId} className="text-center">
-                  <div className="text-3xl mb-1">{RECIPES[drinkId].emoji}</div>
+                  {RECIPES[drinkId].image ? (
+                    <img
+                      src={`/assets/${RECIPES[drinkId].image}`}
+                      alt={RECIPES[drinkId].name}
+                      className="w-16 h-16 mx-auto mb-1"
+                      style={{ imageRendering: 'pixelated' }}
+                    />
+                  ) : (
+                    <div className="text-3xl mb-1">{RECIPES[drinkId].emoji}</div>
+                  )}
                   <div className="font-bold text-green-800 text-sm">{RECIPES[drinkId].name}</div>
                   <div className="text-amber-600">×{count}</div>
                 </div>
@@ -113,31 +113,35 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Object.values(RECIPES).map(recipe => {
             const canBrew = canBrewRecipe(recipe);
+            const ingredientCount = Object.keys(recipe.ingredients).length;
+            const isLargeRecipe = ingredientCount >= 4;
             return (
-              <div 
-                key={recipe.id} 
-                className="rounded-xl px-6 py-6 relative"
-                style={{
-                  backgroundImage: 'url(/assets/square-sign.png)',
-                  backgroundSize: '100% 100%',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                  imageRendering: 'pixelated'
-                }}
+              <div
+                key={recipe.id}
+                className={`border-4 border-green-800 px-16 py-8 relative bg-amber-100 border-4 border-green-800 ${isLargeRecipe ? 'md:col-span-2' : ''}`}
               >
                 <div className="flex items-start gap-3 mb-2 relative z-10">
-                  <div className="text-4xl flex-shrink-0">{recipe.emoji}</div>
+                  {recipe.image ? (
+                    <img
+                      src={`/assets/${recipe.image}`}
+                      alt={recipe.name}
+                      className="w-20 h-20 flex-shrink-0"
+                      style={{ imageRendering: 'pixelated' }}
+                    />
+                  ) : (
+                    <div className="text-5xl flex-shrink-0">{recipe.emoji}</div>
+                  )}
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-xl font-bold text-green-800 mb-0.5 leading-tight">{recipe.name}</h4>
-                    <p className="text-xs text-green-600 leading-snug">{recipe.description}</p>
+                    <h4 className="text-2xl font-bold text-green-800 mb-1 leading-tight">{recipe.name}</h4>
+                    <p className="text-sm text-green-600 leading-snug">{recipe.description}</p>
                   </div>
                 </div>
                 
-                <div className="mb-2 relative z-10">
-                  <p className="font-bold text-green-800 mb-1 text-sm">Ingredients:</p>
-                  <div className="space-y-0.5">
+                <div className="mb-3 relative z-10">
+                  <p className="font-bold text-green-800 mb-2 text-base">Ingredients:</p>
+                  <div className="space-y-1">
                     {Object.entries(recipe.ingredients).map(([herb, amount]) => (
-                      <div key={herb} className="flex justify-between text-sm items-center">
+                      <div key={herb} className="flex justify-between text-base items-center">
                         <span className="flex items-center gap-2">
                           <img 
                             src={`/assets/${herb}-grown.png`}
@@ -155,13 +159,13 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                   </div>
                 </div>
                 
-                <div className="text-center text-sm text-amber-700 font-bold mb-2 relative z-10 leading-snug">{recipe.effect}</div>
+                <div className="text-center text-base text-amber-700 font-bold mb-3 relative z-10 leading-snug">{recipe.effect}</div>
                 
                 <button
-                  onClick={() => brewRecipe(recipe.id)}
-                  disabled={!canBrew || brewing}
-                  className={`w-full px-4 py-2.5 rounded-lg font-bold text-sm transition transform hover:scale-105 relative z-10 ${
-                    canBrew && !brewing
+                  onClick={() => startBrewing(recipe.id)}
+                  disabled={!canBrew || brewingRecipe !== null}
+                  className={`w-full px-4 py-3 border-4 border-green-800 font-bold text-base transition transform hover:scale-105 relative z-10 ${
+                    canBrew && brewingRecipe === null
                       ? 'bg-amber-500 hover:bg-amber-600 text-white'
                       : 'bg-gray-400 text-gray-700 cursor-not-allowed'
                   }`}

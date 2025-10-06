@@ -74,19 +74,19 @@ export default function DataManagement() {
     <div className="max-w-2xl mx-auto p-8">
       <h2 className="text-4xl font-bold text-green-800 mb-8 text-center">Data Management</h2>
       
-      <div className="bg-white/80 rounded-xl border-4 border-green-800 p-8 space-y-6">
+      <div className="bg-white/80 border-4 border-green-800 border-4 border-green-800 p-8 space-y-6">
         <div>
           <h3 className="text-2xl font-bold text-green-800 mb-4">Backup & Restore</h3>
           <div className="space-y-4">
             <button
               onClick={exportData}
-              className="w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-bold text-lg transition transform hover:scale-105"
+              className="w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white border-4 border-green-800 font-bold text-lg transition transform hover:scale-105"
             >
               Export Data (Download Backup)
             </button>
             <button
               onClick={importData}
-              className="w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-lg transition transform hover:scale-105"
+              className="w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white border-4 border-green-800 font-bold text-lg transition transform hover:scale-105"
             >
               Import Data (Restore Backup)
             </button>
@@ -97,7 +97,7 @@ export default function DataManagement() {
           <h3 className="text-2xl font-bold text-red-600 mb-4">Danger Zone</h3>
           <button
             onClick={resetProgress}
-            className="w-full px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-lg transition transform hover:scale-105"
+            className="w-full px-6 py-4 bg-red-600 hover:bg-red-700 text-white border-4 border-green-800 font-bold text-lg transition transform hover:scale-105"
           >
             Reset All Progress
           </button>

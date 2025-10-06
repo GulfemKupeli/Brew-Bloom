@@ -19,7 +19,7 @@ export default function NavBar({ currentPage, setCurrentPage }) {
           <button
             key={id}
             onClick={() => setCurrentPage(id)}
-            className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition ${
+            className={`flex flex-col items-center gap-1 px-3 py-2 border-4 border-green-800 transition ${
               currentPage === id ? 'bg-green-600' : 'hover:bg-green-700'
             }`}
           >

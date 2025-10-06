@@ -14,7 +14,7 @@ export default function ToolBar({ onOpenSeedBag, totalSeeds }) {
   };
 
   return (
-    <div className="fixed top-24 left-8 bg-gradient-to-br from-amber-100 to-green-100 rounded-xl border-4 border-green-700 p-4 shadow-xl z-50">
+    <div className="fixed top-24 left-8 bg-gradient-to-br from-amber-100 to-green-100 border-4 border-green-800 border-4 border-green-700 p-4 shadow-xl z-50">
       <div className="flex flex-col items-center space-y-4">
         {/* Seed Bag Button */}
         <div
@@ -33,7 +33,7 @@ export default function ToolBar({ onOpenSeedBag, totalSeeds }) {
               style={{ imageRendering: 'pixelated' }}
             />
             {totalSeeds > 0 && (
-              <div className="absolute -top-2 -right-2 bg-amber-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-amber-800">
+              <div className="absolute -top-2 -right-2 bg-amber-600 text-white border-4 border-green-800 w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-amber-800">
                 {totalSeeds}
               </div>
             )}
