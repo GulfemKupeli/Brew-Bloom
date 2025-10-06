@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Coffee, Sprout } from 'lucide-react';
 import { getAssetPath } from '../utils/assets';
 
-const DEBUG_MODE = true; // Set to false for normal use
+const DEBUG_MODE = false; // Set to true for testing (10s focus, 5s break)
 
 export default function Timer({ 
   coins, 

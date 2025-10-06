@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getAssetPath } from '../utils/assets';
 
 export default function ToolBar({ onOpenSeedBag, totalSeeds }) {
   const [hoveredTool, setHoveredTool] = useState(null);
