@@ -11,6 +11,7 @@ import DataManagement from './components/DataManagement';
 import { useDayNight, DayNightIndicator } from './components/DayNightCycle';
 import { ACHIEVEMENTS } from './data/achievements';
 import Toast from './components/Toast';
+import { getAssetPath } from './utils/assets';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('timer');
@@ -19,12 +20,12 @@ export default function App() {
   const showToast = (message, emoji = '✅') => {
   setToast({ message, emoji });
   };
-  const isDaytime = useDayNight();
+  const { isDaytime, toggleDayNight } = useDayNight();
   
   // Timer & Game States
   const [coins, setCoins] = useState(() => {
     const saved = localStorage.getItem('brewBloomCoins');
-    return saved ? parseInt(saved) : 50;
+    return saved ? parseInt(saved) : 250;
   });
   
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
@@ -195,12 +196,16 @@ export default function App() {
   }, [unlockedAchievements]);
 
   return (
-    <div className={`min-h-screen transition-colors duration-1000 ${
-      isDaytime 
-        ? 'bg-gradient-to-b from-amber-50 to-green-50' 
-        : 'bg-gradient-to-b from-indigo-900 via-purple-900 to-slate-900'
-    }`}>
-      <DayNightIndicator isDaytime={isDaytime} />
+    <div
+      className="min-h-screen transition-colors duration-1000"
+      style={{
+        backgroundImage: `url(${getAssetPath(isDaytime ? 'assets/background.png' : 'assets/dark-background.png')})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      <DayNightIndicator isDaytime={isDaytime} onToggle={toggleDayNight} />
       <NavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       
       {currentPage === 'timer' && (
@@ -215,6 +220,9 @@ export default function App() {
           breakLength={breakLength}
           soundEnabled={soundEnabled}
           autoStart={autoStart}
+          brewedDrinks={brewedDrinks}
+          setBrewedDrinks={setBrewedDrinks}
+          showToast={showToast}
         />
       )}
       
@@ -248,6 +256,7 @@ export default function App() {
           setInventory={setInventory}
           brewedDrinks={brewedDrinks}
           setBrewedDrinks={setBrewedDrinks}
+          showToast={showToast}
         />
       )}
       

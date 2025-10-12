@@ -60,10 +60,18 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div className="border-4 border-green-800 p-6 relative min-h-64 bg-amber-100 border-4 border-green-800">
+        <div
+          className="border-4 border-green-800 p-6 relative min-h-64 border-4 border-green-800 overflow-hidden"
+          style={{
+            backgroundImage: `url(${getAssetPath('assets/marble.png')})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            imageRendering: 'pixelated'
+          }}
+        >
           <h3 className="text-2xl font-bold text-green-800 mb-4 text-center relative z-10">Your Ingredients</h3>
           {Object.keys(inventory).length === 0 ? (
-            <p className="text-center text-green-600 relative z-10">No herbs yet! Harvest from your garden!</p>
+            <p className="text-center text-green-700 font-semibold relative z-10">No herbs yet! Harvest from your garden!</p>
           ) : (
             <div className="grid grid-cols-3 gap-4 relative z-10">
               {Object.entries(inventory).map(([herb, count]) => (
@@ -75,17 +83,25 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                     style={{ imageRendering: 'pixelated' }}
                   />
                   <div className="font-bold text-green-800 text-sm">{SEEDS[herb].name}</div>
-                  <div className="text-green-600">×{count}</div>
+                  <div className="text-green-700 font-semibold">×{count}</div>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className="border-4 border-green-800 p-6 relative min-h-64 bg-amber-100 border-4 border-green-800">
+        <div
+          className="border-4 border-green-800 p-6 relative min-h-64 border-4 border-green-800 overflow-hidden"
+          style={{
+            backgroundImage: `url(${getAssetPath('assets/marble.png')})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            imageRendering: 'pixelated'
+          }}
+        >
           <h3 className="text-2xl font-bold text-green-800 mb-4 text-center relative z-10">Brewed Collection</h3>
           {Object.keys(brewedDrinks).length === 0 ? (
-            <p className="text-center text-green-600 relative z-10">No drinks brewed yet!</p>
+            <p className="text-center text-green-700 font-semibold relative z-10">No drinks brewed yet!</p>
           ) : (
             <div className="grid grid-cols-2 gap-4 relative z-10">
               {Object.entries(brewedDrinks).map(([drinkId, count]) => (
@@ -119,7 +135,13 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
             return (
               <div
                 key={recipe.id}
-                className={`border-4 border-green-800 px-16 py-8 relative bg-amber-100 border-4 border-green-800 ${isLargeRecipe ? 'md:col-span-2' : ''}`}
+                className={`border-4 border-green-800 px-16 py-8 relative border-4 border-green-800 overflow-hidden ${isLargeRecipe ? 'md:col-span-2' : ''}`}
+                style={{
+                  backgroundImage: `url(${getAssetPath('assets/marble.png')})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  imageRendering: 'pixelated'
+                }}
               >
                 <div className="flex items-start gap-3 mb-2 relative z-10">
                   {recipe.image ? (
@@ -134,7 +156,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                   )}
                   <div className="flex-1 min-w-0">
                     <h4 className="text-2xl font-bold text-green-800 mb-1 leading-tight">{recipe.name}</h4>
-                    <p className="text-sm text-green-600 leading-snug">{recipe.description}</p>
+                    <p className="text-sm text-green-700 font-semibold leading-snug">{recipe.description}</p>
                   </div>
                 </div>
                 
@@ -152,7 +174,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                           />
                           <span>{SEEDS[herb].name}</span>
                         </span>
-                        <span className={`font-bold ${(inventory[herb] || 0) >= amount ? 'text-green-600' : 'text-red-600'}`}>
+                        <span className={`font-bold ${(inventory[herb] || 0) >= amount ? 'text-green-700' : 'text-red-700'}`}>
                           {inventory[herb] || 0}/{amount}
                         </span>
                       </div>

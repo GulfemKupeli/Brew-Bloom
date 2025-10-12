@@ -29,7 +29,7 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
           <img
             src={getAssetPath('assets/coin.png')}
             alt="Coin"
-            className="w-8 h-8"
+            className="w-12 h-12"
             style={{ imageRendering: 'pixelated' }}
           />
           <p className="text-2xl font-bold text-amber-600">{coins}</p>
@@ -71,7 +71,7 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
                 <img
                   src={getAssetPath('assets/coin.png')}
                   alt="Coin"
-                  className="w-6 h-6"
+                  className="w-8 h-8"
                   style={{ imageRendering: 'pixelated' }}
                 />
                 <span>{seed.price}</span>

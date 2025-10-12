@@ -145,11 +145,14 @@ export default function Garden({
               key={plot.id}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, plot.id)}
-              className="bg-amber-900 border-8 border-amber-950 p-6 text-center hover:shadow-xl transition"
+              className="border-8 border-amber-950 p-6 text-center hover:shadow-xl transition relative overflow-hidden"
               style={{
                 imageRendering: 'pixelated',
-                background: 'linear-gradient(135deg, #78350f 0%, #92400e 25%, #78350f 50%, #854d0e 75%, #78350f 100%)',
-                boxShadow: 'inset 0 0 20px rgba(0,0,0,0.3)'
+                backgroundImage: `url(${getAssetPath('assets/soil.png')})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: 'inset 0 0 20px rgba(0,0,0,0.3)',
+                opacity: 0.9
               }}
             >
               <img 
