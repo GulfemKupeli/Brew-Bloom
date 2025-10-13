@@ -9,7 +9,10 @@
       "Bash(git push:*)",
       "Bash(cat:*)",
       "Bash(git commit:*)",
-      "Bash(git subtree push:*)"
+      "Bash(git subtree push:*)",
+      "Bash(pip install Pillow)",
+      "Bash(pip show:*)",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": []
