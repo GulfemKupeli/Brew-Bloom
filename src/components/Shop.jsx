@@ -1,8 +1,9 @@
 import React from 'react';
 import { SEEDS } from '../data/seeds';
 import { getAssetPath } from '../utils/assets';
+import { getTextClass, getBorderClass } from '../utils/theme';
 
-export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seedInventory, setSeedInventory }) {
+export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seedInventory, setSeedInventory, isDaytime }) {
   
   const buySeed = (seedId) => {
     const seed = SEEDS[seedId];
@@ -21,7 +22,7 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
 
   return (
     <div className="max-w-6xl mx-auto p-8">
-      <h2 className="text-4xl font-bold text-green-800 mb-6 text-center">Seed Shop</h2>
+      <h2 className={`text-4xl font-bold ${getTextClass(isDaytime, 'primary')} mb-6 text-center`}>Seed Shop</h2>
       
       {/* Coins display */}
       <div className="border-4 border-green-800 p-6 mb-6 text-center relative min-h-24 bg-amber-100 border-4 border-green-800">
@@ -50,8 +51,8 @@ export default function Shop({ coins, setCoins, setSelectedSeed, showToast, seed
                 className="w-32 h-32 mx-auto mb-3 relative z-10"
                 style={{ imageRendering: 'pixelated' }}
               />
-              <h3 className="text-xl font-bold text-green-800 mb-2 relative z-10">{seed.name}</h3>
-              <p className="text-green-600 text-sm mb-2 relative z-10">{seed.description}</p>
+              <h3 className={`text-xl font-bold ${getTextClass(isDaytime, 'primary')} mb-2 relative z-10`}>{seed.name}</h3>
+              <p className={`${getTextClass(isDaytime, 'tertiary')} text-sm mb-2 relative z-10`}>{seed.description}</p>
               {ownedCount > 0 && (
                 <p className="text-amber-600 font-bold mb-2 relative z-10">Owned: {ownedCount}</p>
               )}

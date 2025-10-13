@@ -1,22 +1,24 @@
 import React from 'react';
+import { getTextClass, getBorderClass } from '../utils/theme';
 
-export default function Settings({ 
-  focusLength, 
-  setFocusLength, 
-  breakLength, 
-  setBreakLength, 
-  soundEnabled, 
-  setSoundEnabled, 
-  autoStart, 
-  setAutoStart 
+export default function Settings({
+  focusLength,
+  setFocusLength,
+  breakLength,
+  setBreakLength,
+  soundEnabled,
+  setSoundEnabled,
+  autoStart,
+  setAutoStart,
+  isDaytime
 }) {
   return (
     <div className="max-w-2xl mx-auto p-8">
-      <h2 className="text-4xl font-bold text-green-800 mb-8 text-center">⚙️ Settings</h2>
+      <h2 className={`text-4xl font-bold ${getTextClass(isDaytime, 'primary')} mb-8 text-center`}>⚙️ Settings</h2>
       
       <div className="bg-white/80 border-4 border-green-800 border-4 border-green-800 p-8 space-y-6">
         <div>
-          <label className="block text-lg font-bold text-green-800 mb-2">
+          <label className={`block text-lg font-bold ${getTextClass(isDaytime, 'primary')} mb-2`}>
             Focus Duration (minutes)
           </label>
           <select
@@ -32,7 +34,7 @@ export default function Settings({
         </div>
 
         <div>
-          <label className="block text-lg font-bold text-green-800 mb-2">
+          <label className={`block text-lg font-bold ${getTextClass(isDaytime, 'primary')} mb-2`}>
             Break Duration (minutes)
           </label>
           <select
@@ -47,7 +49,7 @@ export default function Settings({
         </div>
 
         <div className="flex items-center justify-between">
-          <label className="text-lg font-bold text-green-800">Sound Notifications</label>
+          <label className={`text-lg font-bold ${getTextClass(isDaytime, 'primary')}`}>Sound Notifications</label>
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
             className={`px-6 py-2 border-4 border-green-800 font-bold transition ${
@@ -59,7 +61,7 @@ export default function Settings({
         </div>
 
         <div className="flex items-center justify-between">
-          <label className="text-lg font-bold text-green-800">Auto-start Next Session</label>
+          <label className={`text-lg font-bold ${getTextClass(isDaytime, 'primary')}`}>Auto-start Next Session</label>
           <button
             onClick={() => setAutoStart(!autoStart)}
             className={`px-6 py-2 border-4 border-green-800 font-bold transition ${

@@ -223,9 +223,10 @@ export default function App() {
           brewedDrinks={brewedDrinks}
           setBrewedDrinks={setBrewedDrinks}
           showToast={showToast}
+          isDaytime={isDaytime}
         />
       )}
-      
+
       {currentPage === 'shop' && (
   <Shop
     coins={coins}
@@ -234,6 +235,7 @@ export default function App() {
     showToast={showToast}
     seedInventory={seedInventory}
     setSeedInventory={setSeedInventory}
+    isDaytime={isDaytime}
   />
 )}
 
@@ -247,9 +249,10 @@ export default function App() {
     showToast={showToast}
     seedInventory={seedInventory}
     setSeedInventory={setSeedInventory}
+    isDaytime={isDaytime}
   />
 )}
-      
+
       {currentPage === 'kitchen' && (
         <Kitchen
           inventory={inventory}
@@ -257,13 +260,14 @@ export default function App() {
           brewedDrinks={brewedDrinks}
           setBrewedDrinks={setBrewedDrinks}
           showToast={showToast}
+          isDaytime={isDaytime}
         />
       )}
-      
+
       {currentPage === 'inventory' && (
-        <Inventory inventory={inventory} />
+        <Inventory inventory={inventory} isDaytime={isDaytime} />
       )}
-      
+
       {currentPage === 'settings' && (
         <Settings
           focusLength={focusLength}
@@ -274,21 +278,23 @@ export default function App() {
           setSoundEnabled={setSoundEnabled}
           autoStart={autoStart}
           setAutoStart={setAutoStart}
+          isDaytime={isDaytime}
         />
       )}
 
       {currentPage === 'stats' && (
-        <Stats stats={stats} unlockedAchievements={unlockedAchievements} />
+        <Stats stats={stats} unlockedAchievements={unlockedAchievements} isDaytime={isDaytime} />
       )}
 
       {currentPage === 'data' && (
-        <DataManagement />
+        <DataManagement isDaytime={isDaytime} />
       )}
       {toast && (
-      <Toast 
-        message={toast.message} 
-        emoji={toast.emoji} 
-        onClose={() => setToast(null)} 
+      <Toast
+        message={toast.message}
+        emoji={toast.emoji}
+        onClose={() => setToast(null)}
+        isDaytime={isDaytime}
       />
     )}
     </div>

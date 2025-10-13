@@ -1,6 +1,7 @@
 import React from 'react';
+import { getTextClass, getBorderClass } from '../utils/theme';
 
-export default function DataManagement() {
+export default function DataManagement({ isDaytime }) {
   
   const exportData = () => {
     const data = {
@@ -72,11 +73,11 @@ export default function DataManagement() {
 
   return (
     <div className="max-w-2xl mx-auto p-8">
-      <h2 className="text-4xl font-bold text-green-800 mb-8 text-center">Data Management</h2>
+      <h2 className={`text-4xl font-bold ${getTextClass(isDaytime, 'primary')} mb-8 text-center`}>Data Management</h2>
       
       <div className="bg-white/80 border-4 border-green-800 border-4 border-green-800 p-8 space-y-6">
         <div>
-          <h3 className="text-2xl font-bold text-green-800 mb-4">Backup & Restore</h3>
+          <h3 className={`text-2xl font-bold ${getTextClass(isDaytime, 'primary')} mb-4`}>Backup & Restore</h3>
           <div className="space-y-4">
             <button
               onClick={exportData}

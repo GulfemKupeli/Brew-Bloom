@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Coffee, Sprout } from 'lucide-react';
 import { getAssetPath } from '../utils/assets';
 import { RECIPES } from '../data/recipes';
+import { getTextClass, getBorderClass } from '../utils/theme';
 
 const DEBUG_MODE = false; // Set to true for testing (10s focus, 5s break)
 
@@ -18,7 +19,8 @@ export default function Timer({
   autoStart,
   showToast,
   brewedDrinks,
-  setBrewedDrinks
+  setBrewedDrinks,
+  isDaytime
 }) {
   const [minutes, setMinutes] = useState(DEBUG_MODE ? 0 : focusLength);
   const [seconds, setSeconds] = useState(DEBUG_MODE ? 10 : 0);
@@ -205,7 +207,7 @@ export default function Timer({
               />
               {coins}
             </div>
-            <div className="text-sm text-green-700">Coins</div>
+            <div className={`text-sm ${getTextClass(isDaytime, 'secondary')}`}>Coins</div>
           </div>
           <div className="w-px h-12 bg-green-300"></div>
           <div>
@@ -218,7 +220,7 @@ export default function Timer({
               />
               {sessionsCompleted}
             </div>
-            <div className="text-sm text-green-700">Sessions Today</div>
+            <div className={`text-sm ${getTextClass(isDaytime, 'secondary')}`}>Sessions Today</div>
           </div>
           <div className="w-px h-12 bg-green-300"></div>
           <div>
@@ -231,7 +233,7 @@ export default function Timer({
               />
               {totalFocusTime}m
             </div>
-            <div className="text-sm text-green-700">Total Focus Time</div>
+            <div className={`text-sm ${getTextClass(isDaytime, 'secondary')}`}>Total Focus Time</div>
           </div>
         </div>
       </div>
@@ -264,7 +266,7 @@ export default function Timer({
         </div>
 
         <div className="text-center relative z-10">
-          <div className="text-9xl font-bold text-green-800 mb-8 tracking-wider drop-shadow-lg bg-amber-100/80 inline-block px-8 py-4 border-8 border-green-800" style={{ imageRendering: 'pixelated' }}>
+          <div className={`text-9xl font-bold ${getTextClass(isDaytime, 'primary')} mb-8 tracking-wider drop-shadow-lg bg-amber-100/80 inline-block px-8 py-4 border-8 border-green-800`} style={{ imageRendering: 'pixelated' }}>
             {formatTime(minutes, seconds)}
           </div>
         </div>
@@ -334,7 +336,7 @@ export default function Timer({
           {!isBreak && (
             <div className="mt-8 text-center relative z-10">
               <div className="inline-block bg-amber-200 border-4 border-amber-600 px-6 py-3" style={{ imageRendering: 'pixelated' }}>
-                <p className="text-green-800 font-bold flex items-center justify-center gap-2">
+                <p className={`${getTextClass(isDaytime, 'primary')} font-bold flex items-center justify-center gap-2`}>
                   Complete this session to earn
                   <span className="text-amber-700 text-xl flex items-center gap-1">
                     <img
@@ -425,11 +427,11 @@ export default function Timer({
       {showDrinkModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 pointer-events-none">
           <div className="bg-amber-100 border-8 border-green-800 p-8 max-w-2xl max-h-[80vh] overflow-y-auto pointer-events-auto" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-3xl font-bold text-green-800 mb-6 text-center">Select a Drink</h3>
-            <p className="text-center text-green-700 font-semibold mb-6">Drag a drink to the girl's table to activate it!</p>
+            <h3 className={`text-3xl font-bold ${getTextClass(isDaytime, 'primary')} mb-6 text-center`}>Select a Drink</h3>
+            <p className={`text-center ${getTextClass(isDaytime, 'secondary')} font-semibold mb-6`}>Drag a drink to the girl's table to activate it!</p>
 
             {Object.keys(brewedDrinks).length === 0 ? (
-              <p className="text-center text-green-700 font-semibold">No drinks available! Brew some drinks in the Kitchen first.</p>
+              <p className={`text-center ${getTextClass(isDaytime, 'secondary')} font-semibold`}>No drinks available! Brew some drinks in the Kitchen first.</p>
             ) : (
               <div className="grid grid-cols-3 gap-4">
                 {Object.entries(brewedDrinks)
@@ -452,7 +454,7 @@ export default function Timer({
                           style={{ imageRendering: 'pixelated' }}
                           draggable="false"
                         />
-                        <div className="font-bold text-green-800 text-sm mb-1 pointer-events-none">{recipe.name}</div>
+                        <div className={`font-bold ${getTextClass(isDaytime, 'primary')} text-sm mb-1 pointer-events-none`}>{recipe.name}</div>
                         <div className="text-xs text-purple-600 font-semibold mb-1 pointer-events-none">{recipe.effect}</div>
                         <div className="text-amber-600 font-bold pointer-events-none">×{count}</div>
                       </div>

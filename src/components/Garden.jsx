@@ -3,16 +3,18 @@ import { SEEDS } from '../data/seeds';
 import SeedBag from './SeedBag';
 import ToolBar from './ToolBar';
 import { getAssetPath } from '../utils/assets';
+import { getTextClass } from '../utils/theme';
 
-export default function Garden({ 
-  garden, 
-  setGarden, 
-  selectedSeed, 
+export default function Garden({
+  garden,
+  setGarden,
+  selectedSeed,
   setSelectedSeed,
   setInventory,
   showToast,
   seedInventory,
-  setSeedInventory
+  setSeedInventory,
+  isDaytime
 }) {
   const [showSeedBag, setShowSeedBag] = useState(false);
   
@@ -134,7 +136,7 @@ export default function Garden({
     <div className="max-w-4xl mx-auto p-8">
       <ToolBar onOpenSeedBag={() => setShowSeedBag(true)} totalSeeds={totalSeeds} />
       
-      <h2 className="text-4xl font-bold text-green-800 mb-6 text-center">Your Garden</h2>
+      <h2 className={`text-4xl font-bold ${getTextClass(isDaytime, 'primary')} mb-6 text-center`}>Your Garden</h2>
 
       <div className="grid grid-cols-3 gap-6">
         {garden.map(plot => {
@@ -174,9 +176,10 @@ export default function Garden({
       </div>
 
       {showSeedBag && (
-        <SeedBag 
-          seedInventory={seedInventory} 
-          onClose={() => setShowSeedBag(false)} 
+        <SeedBag
+          seedInventory={seedInventory}
+          onClose={() => setShowSeedBag(false)}
+          isDaytime={isDaytime}
         />
       )}
     </div>

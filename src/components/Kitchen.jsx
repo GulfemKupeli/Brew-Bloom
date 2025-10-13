@@ -3,8 +3,9 @@ import { SEEDS } from '../data/seeds';
 import { RECIPES } from '../data/recipes';
 import BrewingStation from './BrewingStation';
 import { getAssetPath } from '../utils/assets';
+import { getTextClass, getBorderClass } from '../utils/theme';
 
-export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrewedDrinks, showToast }) {
+export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrewedDrinks, showToast, isDaytime }) {
   const [brewingRecipe, setBrewingRecipe] = useState(null);
 
   const canBrewRecipe = (recipe) => {
@@ -48,7 +49,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
 
   return (
     <div className="max-w-7xl mx-auto p-8">
-      <h2 className="text-4xl font-bold text-green-800 mb-6 text-center">Kitchen</h2>
+      <h2 className={`text-4xl font-bold ${getTextClass(isDaytime, 'primary')} mb-6 text-center`}>Kitchen</h2>
 
       {brewingRecipe && (
         <BrewingStation
@@ -69,9 +70,9 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
             imageRendering: 'pixelated'
           }}
         >
-          <h3 className="text-2xl font-bold text-green-800 mb-4 text-center relative z-10">Your Ingredients</h3>
+          <h3 className={`text-2xl font-bold ${getTextClass(isDaytime, 'primary')} mb-4 text-center relative z-10`}>Your Ingredients</h3>
           {Object.keys(inventory).length === 0 ? (
-            <p className="text-center text-green-700 font-semibold relative z-10">No herbs yet! Harvest from your garden!</p>
+            <p className={`text-center ${getTextClass(isDaytime, 'secondary')} font-semibold relative z-10`}>No herbs yet! Harvest from your garden!</p>
           ) : (
             <div className="grid grid-cols-3 gap-4 relative z-10">
               {Object.entries(inventory).map(([herb, count]) => (
@@ -82,8 +83,8 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                     className="w-16 h-16 mx-auto mb-1"
                     style={{ imageRendering: 'pixelated' }}
                   />
-                  <div className="font-bold text-green-800 text-sm">{SEEDS[herb].name}</div>
-                  <div className="text-green-700 font-semibold">×{count}</div>
+                  <div className={`font-bold ${getTextClass(isDaytime, 'primary')} text-sm`}>{SEEDS[herb].name}</div>
+                  <div className={`${getTextClass(isDaytime, 'secondary')} font-semibold`}>×{count}</div>
                 </div>
               ))}
             </div>
@@ -99,9 +100,9 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
             imageRendering: 'pixelated'
           }}
         >
-          <h3 className="text-2xl font-bold text-green-800 mb-4 text-center relative z-10">Brewed Collection</h3>
+          <h3 className={`text-2xl font-bold ${getTextClass(isDaytime, 'primary')} mb-4 text-center relative z-10`}>Brewed Collection</h3>
           {Object.keys(brewedDrinks).length === 0 ? (
-            <p className="text-center text-green-700 font-semibold relative z-10">No drinks brewed yet!</p>
+            <p className={`text-center ${getTextClass(isDaytime, 'secondary')} font-semibold relative z-10`}>No drinks brewed yet!</p>
           ) : (
             <div className="grid grid-cols-2 gap-4 relative z-10">
               {Object.entries(brewedDrinks).map(([drinkId, count]) => (
@@ -116,7 +117,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                   ) : (
                     <div className="text-3xl mb-1">{RECIPES[drinkId].emoji}</div>
                   )}
-                  <div className="font-bold text-green-800 text-sm">{RECIPES[drinkId].name}</div>
+                  <div className={`font-bold ${getTextClass(isDaytime, 'primary')} text-sm`}>{RECIPES[drinkId].name}</div>
                   <div className="text-amber-600">×{count}</div>
                 </div>
               ))}
@@ -126,7 +127,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
       </div>
 
       <div>
-        <h3 className="text-3xl font-bold text-green-800 mb-6 text-center">Recipe Book</h3>
+        <h3 className={`text-3xl font-bold ${getTextClass(isDaytime, 'primary')} mb-6 text-center`}>Recipe Book</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Object.values(RECIPES).map(recipe => {
             const canBrew = canBrewRecipe(recipe);
@@ -155,13 +156,13 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                     <div className="text-5xl flex-shrink-0">{recipe.emoji}</div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-2xl font-bold text-green-800 mb-1 leading-tight">{recipe.name}</h4>
-                    <p className="text-sm text-green-700 font-semibold leading-snug">{recipe.description}</p>
+                    <h4 className={`text-2xl font-bold ${getTextClass(isDaytime, 'primary')} mb-1 leading-tight`}>{recipe.name}</h4>
+                    <p className={`text-sm ${getTextClass(isDaytime, 'secondary')} font-semibold leading-snug`}>{recipe.description}</p>
                   </div>
                 </div>
                 
                 <div className="mb-3 relative z-10">
-                  <p className="font-bold text-green-800 mb-2 text-base">Ingredients:</p>
+                  <p className={`font-bold ${getTextClass(isDaytime, 'primary')} mb-2 text-base`}>Ingredients:</p>
                   <div className="space-y-1">
                     {Object.entries(recipe.ingredients).map(([herb, amount]) => (
                       <div key={herb} className="flex justify-between text-base items-center">
@@ -174,7 +175,7 @@ export default function Kitchen({ inventory, setInventory, brewedDrinks, setBrew
                           />
                           <span>{SEEDS[herb].name}</span>
                         </span>
-                        <span className={`font-bold ${(inventory[herb] || 0) >= amount ? 'text-green-700' : 'text-red-700'}`}>
+                        <span className={`font-bold ${(inventory[herb] || 0) >= amount ? getTextClass(isDaytime, 'secondary') : 'text-red-700'}`}>
                           {inventory[herb] || 0}/{amount}
                         </span>
                       </div>
