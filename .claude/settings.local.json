@@ -4,7 +4,12 @@
       "Bash(npm run build:*)",
       "Bash(rm:*)",
       "Bash(powershell:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd major game enhancements and UI improvements\n\n## New Features\n- Interactive drink system with bonus coin rewards\n- Drag and drop drinks to character desk with visual effects\n- Dark/light mode toggle with custom backgrounds\n- Animated character in Timer page (3 writing poses)\n- Wooden sign navigation with hanging chains\n\n## Visual Improvements\n- Marble texture for Kitchen counters and recipe cards\n- Soil texture for Garden plot backgrounds\n- Wooden texture for navbar buttons\n- Custom backgrounds for light/dark modes\n- Larger, more prominent asset displays (coins, drinks, icons)\n\n## Assets Added\n- Character animations (girl-writing1/2/3.png)\n- Drink brewing equipment (kettle, mortar, pestle, glasses)\n- New drink recipes (master-brew, citrus-zing, rosemary-focus, etc.)\n- UI elements (wooden-sign, marble, soil, sun, moon, clock, session icons)\n- Light/dark mode backgrounds\n\n## Drink System\n- Modal to select brewed drinks\n- Drag drink to character table with effect notifications\n- Bonus coins based on drink effect percentage\n- Visual feedback with floating text animations\n\n## Component Updates\n- Timer: Added drink system, character animation, new stat icons\n- Kitchen: Marble counters, improved text readability\n- Garden: Semi-transparent soil backgrounds\n- NavBar: Wooden signs with chains, dynamic light/dark backgrounds\n- BrewingStation: Marble counter surface\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(cat:*)",
+      "Bash(git commit:*)",
+      "Bash(git subtree push:*)"
     ],
     "deny": [],
     "ask": []
