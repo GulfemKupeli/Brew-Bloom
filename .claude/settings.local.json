@@ -14,7 +14,8 @@
       "Bash(pip show:*)",
       "Bash(python:*)",
       "Bash(gh run list:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(curl -s https://gulfemkupeli.github.io/Brew-Bloom/)"
     ],
     "deny": [],
     "ask": []
