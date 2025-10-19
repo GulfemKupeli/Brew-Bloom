@@ -517,19 +517,8 @@ export default function GardenGame({
     return getAssetPath(`assets/${spriteName}`);
   };
 
-  // Get tile sprite - with proper growth stages
+  // Get tile sprite - for background layer (soil/grass/path)
   const getTileSprite = (tile) => {
-    if (tile.plant) {
-      // Show different sprites based on growth stage
-      if (tile.growthStage >= PLANT_STAGES.GROWTH2) {
-        // Stage 2 and 3 (mature) show grown plant
-        return getAssetPath(`assets/${tile.plantType}-grown.png`);
-      } else {
-        // Stage 0 and 1 show base plant (seedling)
-        return getAssetPath(`assets/${tile.plantType}.png`);
-      }
-    }
-
     if (tile.type === TILE_TYPES.TILLED_SOIL) {
       return getAssetPath('assets/tilled-soil.png');
     }
@@ -548,6 +537,24 @@ export default function GardenGame({
     }
 
     return getAssetPath('assets/grass-tile.png');
+  };
+
+  // Get plant sprite - separate layer on top of soil
+  const getPlantSprite = (tile) => {
+    if (!tile.plant) return null;
+
+    // Stage 0: Just planted - use planted-seed.png
+    if (tile.growthStage === PLANT_STAGES.SEEDLING) {
+      return getAssetPath('assets/planted-seed.png');
+    }
+
+    // Stage 1: Early growth - use base plant sprite
+    if (tile.growthStage === PLANT_STAGES.GROWTH1) {
+      return getAssetPath(`assets/${tile.plantType}.png`);
+    }
+
+    // Stage 2 and 3: Grown plant
+    return getAssetPath(`assets/${tile.plantType}-grown.png`);
   };
 
   // Handle seedbag click
@@ -649,11 +656,11 @@ export default function GardenGame({
           imageRendering: 'pixelated',
         }}
       >
-        {/* Render grid tiles */}
+        {/* Render grid tiles - background layer */}
         {grid.map((row, y) => (
           row.map((tile, x) => (
             <div
-              key={`${x}-${y}`}
+              key={`tile-${x}-${y}`}
               style={{
                 position: 'absolute',
                 left: x * TILE_SIZE,
@@ -662,6 +669,7 @@ export default function GardenGame({
                 height: TILE_SIZE,
               }}
             >
+              {/* Background: soil/grass/path */}
               <img
                 src={getTileSprite(tile)}
                 alt="tile"
@@ -671,6 +679,23 @@ export default function GardenGame({
                   imageRendering: 'pixelated',
                 }}
               />
+
+              {/* Plant layer on top of soil */}
+              {tile.plant && getPlantSprite(tile) && (
+                <img
+                  src={getPlantSprite(tile)}
+                  alt="plant"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    imageRendering: 'pixelated',
+                  }}
+                />
+              )}
+
               {tile.harvestable && (
                 <div className="absolute inset-0 flex items-center justify-center text-6xl animate-pulse">
                   ✨
