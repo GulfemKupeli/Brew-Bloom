@@ -548,12 +548,12 @@ export default function GardenGame({
       return getAssetPath('assets/planted-seed.png');
     }
 
-    // Stage 1: Early growth - use base plant sprite
-    if (tile.growthStage === PLANT_STAGES.GROWTH1) {
+    // Stage 1-2: Growing - use base plant sprite (lavender.png, thyme.png, etc)
+    if (tile.growthStage === PLANT_STAGES.GROWTH1 || tile.growthStage === PLANT_STAGES.GROWTH2) {
       return getAssetPath(`assets/${tile.plantType}.png`);
     }
 
-    // Stage 2 and 3: Grown plant
+    // Stage 3: Fully grown/mature - use grown plant sprite
     return getAssetPath(`assets/${tile.plantType}-grown.png`);
   };
 
