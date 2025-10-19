@@ -16,7 +16,12 @@
       "Bash(gh run list:*)",
       "Bash(git rm:*)",
       "Bash(curl -s https://gulfemkupeli.github.io/Brew-Bloom/)",
-      "Bash(curl -I https://gulfemkupeli.github.io/Brew-Bloom/assets/index-XbYpCtBD.js)"
+      "Bash(curl -I https://gulfemkupeli.github.io/Brew-Bloom/assets/index-XbYpCtBD.js)",
+      "Bash(curl -I https://gulfemkupeli.github.io/Brew-Bloom/assets/index-EN9WIuQW.js)",
+      "Bash(curl -I https://gulfemkupeli.github.io/Brew-Bloom/assets/index-BrzPyY64.css)",
+      "Bash(curl:*)",
+      "Bash(mv:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

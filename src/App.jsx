@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
 import Timer from './components/Timer';
 import Garden from './components/Garden';
+import GardenGame from './components/GardenGame';
 import Shop from './components/Shop';
 import Kitchen from './components/Kitchen';
 import Inventory from './components/Inventory';
@@ -240,6 +241,16 @@ export default function App() {
 )}
 
 {currentPage === 'garden' && (
+  <GardenGame
+    showToast={showToast}
+    setInventory={setInventory}
+    seedInventory={seedInventory}
+    setSeedInventory={setSeedInventory}
+    isDaytime={isDaytime}
+  />
+)}
+
+{currentPage === 'garden-old' && (
   <Garden
     garden={garden}
     setGarden={setGarden}
