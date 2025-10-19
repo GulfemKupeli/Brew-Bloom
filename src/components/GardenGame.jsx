@@ -432,6 +432,7 @@ export default function GardenGame({
       [tile.plantType]: (prev[tile.plantType] || 0) + 1
     }));
 
+    // Keep the tilled soil, just remove the plant
     setGrid(prev => {
       const newGrid = [...prev];
       newGrid[y] = [...newGrid[y]];
@@ -443,7 +444,7 @@ export default function GardenGame({
         watered: false,
         harvestable: false,
         plantedTime: null,
-        type: TILE_TYPES.TILLED_SOIL,
+        // Keep the soil type as is (TILLED_SOIL or TILLED_SOIL_WATERED stays)
       };
       return newGrid;
     });
