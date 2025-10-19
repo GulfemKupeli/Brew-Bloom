@@ -564,7 +564,7 @@ export default function GardenGame({
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-b from-sky-300 to-green-200 dark:from-slate-900 dark:to-green-950 overflow-hidden">
+    <div className="w-full h-screen flex flex-col items-center justify-center overflow-hidden">
 
       {/* Toolbar - bottom right corner */}
       <div className="fixed bottom-8 right-8 bg-amber-900/95 p-4 rounded-2xl border-4 border-amber-950 z-50">
