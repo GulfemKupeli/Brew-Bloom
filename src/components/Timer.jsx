@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, Coffee, Sprout } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, Sprout, Sparkles } from 'lucide-react';
 import { getAssetPath } from '../utils/assets';
 import { RECIPES } from '../data/recipes';
 import { getTextClass, getBorderClass } from '../utils/theme';
@@ -69,7 +69,6 @@ export default function Timer({
       // Apply drink bonus if active
       if (activeDrink) {
         const recipe = RECIPES[activeDrink];
-        // Extract percentage from effect string (e.g., "Energy +20%" -> 20)
         const match = recipe.effect.match(/\+(\d+)%/);
         if (match) {
           const bonusPercent = parseInt(match[1]);
@@ -77,7 +76,7 @@ export default function Timer({
           coinsEarned += bonus;
           showToast(`${recipe.name} bonus: +${bonus} extra coins! Total: ${coinsEarned}`, '✨');
         }
-        setActiveDrink(null); // Drink is consumed
+        setActiveDrink(null);
       }
 
       setCoins(prev => prev + coinsEarned);
@@ -138,6 +137,8 @@ export default function Timer({
     e.preventDefault();
   };
 
+  const progress = ((isBreak ? breakLength : focusLength) - minutes - (seconds > 0 ? 1 : 0)) / (isBreak ? breakLength : focusLength) * 100;
+
   return (
     <>
     <style>{`
@@ -186,163 +187,173 @@ export default function Timer({
       }
     `}</style>
     <div className="w-full px-8 py-8">
-      <div className="text-center mb-8">
-        <h1 className="text-5xl font-bold text-orange-300 mb-2 flex items-center justify-center gap-3">
-          <Sprout className="w-12 h-12" />
+      {/* Header */}
+      <div className="text-center mb-10">
+        <h1 className="text-6xl font-bold bg-gradient-to-r from-green-400 via-emerald-500 to-teal-600 bg-clip-text text-transparent mb-3 flex items-center justify-center gap-4 drop-shadow-lg">
+          <Sprout className="w-14 h-14 text-green-400 animate-pulse" />
           Brew & Bloom
-          <Coffee className="w-12 h-12" />
+          <Coffee className="w-14 h-14 text-amber-600 animate-pulse" />
         </h1>
-        <p className="text-orange-300 text-lg">Grow your focus, bloom your garden</p>
+        <p className="text-xl text-green-600 dark:text-green-300 font-semibold">Grow your focus, bloom your garden</p>
       </div>
 
-      <div className="bg-white/80 backdrop-blur border-4 border-green-800 shadow-lg p-4 mb-8 border-4 border-green-800 max-w-3xl mx-auto">
-        <div className="flex justify-around items-center text-center">
-          <div>
-            <div className="text-3xl font-bold text-amber-600 flex items-center justify-center gap-2">
-              <img
-                src={getAssetPath('assets/coin.png')}
-                alt="Coin"
-                className="w-12 h-12"
-                style={{ imageRendering: 'pixelated' }}
-              />
+      {/* Stats Cards */}
+      <div className="grid grid-cols-3 gap-6 mb-10 max-w-4xl mx-auto">
+        {/* Coins */}
+        <div className="bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-900/50 dark:to-yellow-900/50 backdrop-blur-lg rounded-3xl p-6 shadow-xl border-2 border-amber-300 dark:border-amber-700 transform hover:scale-105 transition-all duration-300">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <img
+              src={getAssetPath('assets/coin.png')}
+              alt="Coin"
+              className="w-16 h-16 drop-shadow-lg animate-bounce"
+              style={{ imageRendering: 'pixelated' }}
+            />
+            <div className="text-5xl font-bold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
               {coins}
             </div>
-            <div className={`text-sm ${getTextClass(isDaytime, 'secondary')}`}>Coins</div>
           </div>
-          <div className="w-px h-12 bg-green-300"></div>
-          <div>
-            <div className="text-3xl font-bold text-green-600 flex items-center justify-center gap-2">
-              <img
-                src={getAssetPath('assets/session.png')}
-                alt="Session"
-                className="w-12 h-12"
-                style={{ imageRendering: 'pixelated' }}
-              />
+          <div className="text-center text-amber-700 dark:text-amber-300 font-bold text-sm">Coins</div>
+        </div>
+
+        {/* Sessions */}
+        <div className="bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/50 dark:to-emerald-900/50 backdrop-blur-lg rounded-3xl p-6 shadow-xl border-2 border-green-300 dark:border-green-700 transform hover:scale-105 transition-all duration-300">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <img
+              src={getAssetPath('assets/session.png')}
+              alt="Session"
+              className="w-16 h-16 drop-shadow-lg"
+              style={{ imageRendering: 'pixelated' }}
+            />
+            <div className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
               {sessionsCompleted}
             </div>
-            <div className={`text-sm ${getTextClass(isDaytime, 'secondary')}`}>Sessions Today</div>
           </div>
-          <div className="w-px h-12 bg-green-300"></div>
-          <div>
-            <div className="text-3xl font-bold text-blue-600 flex items-center justify-center gap-2">
-              <img
-                src={getAssetPath('assets/clock.png')}
-                alt="Clock"
-                className="w-12 h-12"
-                style={{ imageRendering: 'pixelated' }}
-              />
+          <div className="text-center text-green-700 dark:text-green-300 font-bold text-sm">Sessions Today</div>
+        </div>
+
+        {/* Focus Time */}
+        <div className="bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/50 dark:to-cyan-900/50 backdrop-blur-lg rounded-3xl p-6 shadow-xl border-2 border-blue-300 dark:border-blue-700 transform hover:scale-105 transition-all duration-300">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <img
+              src={getAssetPath('assets/clock.png')}
+              alt="Clock"
+              className="w-16 h-16 drop-shadow-lg"
+              style={{ imageRendering: 'pixelated' }}
+            />
+            <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
               {totalFocusTime}m
             </div>
-            <div className={`text-sm ${getTextClass(isDaytime, 'secondary')}`}>Total Focus Time</div>
           </div>
+          <div className="text-center text-blue-700 dark:text-blue-300 font-bold text-sm">Total Focus Time</div>
         </div>
       </div>
 
-      <div className="flex gap-6 items-stretch w-full">
-        {/* Timer Box - 60% */}
-        <div
-          className="border-4 border-green-800 shadow-2xl p-12 border-8 border-green-800 relative overflow-hidden bg-amber-100"
-          style={{ width: '60%' }}
-        >
-          <div className="absolute top-4 left-4">
-            <img src={getAssetPath('assets/basil-grown.png')} alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+      {/* Main Timer and Character Section */}
+      <div className="flex gap-8 items-stretch max-w-7xl mx-auto">
+        {/* Timer Card - 60% */}
+        <div className="flex-1 bg-white/40 dark:bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl border-2 border-white/50 dark:border-white/20 p-12 relative overflow-hidden">
+          {/* Decorative plant icons */}
+          <div className="absolute top-6 left-6 opacity-20">
+            <img src={getAssetPath('assets/basil-grown.png')} alt="" className="w-16 h-16" style={{ imageRendering: 'pixelated' }} />
           </div>
-          <div className="absolute top-4 right-4">
-            <img src={getAssetPath('assets/mint-grown.png')} alt="Herb" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+          <div className="absolute top-6 right-6 opacity-20">
+            <img src={getAssetPath('assets/mint-grown.png')} alt="" className="w-16 h-16" style={{ imageRendering: 'pixelated' }} />
           </div>
-          <div className="absolute bottom-4 left-8">
-            <img src={getAssetPath('assets/lavender-grown.png')} alt="Plant" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+          <div className="absolute bottom-6 left-10 opacity-20">
+            <img src={getAssetPath('assets/lavender-grown.png')} alt="" className="w-16 h-16" style={{ imageRendering: 'pixelated' }} />
           </div>
-          <div className="absolute bottom-4 right-8">
-            <img src={getAssetPath('assets/chamomile-grown.png')} alt="Tea" className="w-12 h-12" style={{ imageRendering: 'pixelated' }} />
+          <div className="absolute bottom-6 right-10 opacity-20">
+            <img src={getAssetPath('assets/chamomile-grown.png')} alt="" className="w-16 h-16" style={{ imageRendering: 'pixelated' }} />
           </div>
 
-        <div className="text-center mb-6 relative z-10">
-          <div className={`inline-block px-6 py-2 text-lg font-bold border-4 ${
-            isBreak ? 'bg-blue-500 text-white border-blue-700' : 'bg-green-600 text-white border-green-800'
-          }`} style={{ imageRendering: 'pixelated' }}>
-            {isBreak ? 'Break Time' : 'Focus Time'}
+          <div className="text-center mb-8 relative z-10">
+            <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-lg shadow-lg ${
+              isBreak
+                ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
+            }`}>
+              {isBreak ? '☕ Break Time' : '🎯 Focus Time'}
+            </div>
           </div>
-        </div>
 
-        <div className="text-center relative z-10">
-          <div className={`text-9xl font-bold ${getTextClass(isDaytime, 'primary')} mb-8 tracking-wider drop-shadow-lg bg-amber-100/80 inline-block px-8 py-4 border-8 border-green-800`} style={{ imageRendering: 'pixelated' }}>
-            {formatTime(minutes, seconds)}
+          <div className="text-center mb-8 relative z-10">
+            <div className="text-9xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4 tracking-wider drop-shadow-2xl">
+              {formatTime(minutes, seconds)}
+            </div>
+
+            {/* Modern Progress Bar */}
+            <div className="max-w-xl mx-auto">
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden shadow-inner">
+                <div
+                  className={`h-full rounded-full transition-all duration-1000 shadow-lg ${
+                    isBreak
+                      ? 'bg-gradient-to-r from-blue-500 to-cyan-500'
+                      : 'bg-gradient-to-r from-green-500 to-emerald-500'
+                  }`}
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="flex justify-center mb-8 relative z-10">
-          <div className="relative w-64 h-8 bg-green-200 border-4 border-green-800 overflow-hidden" style={{ imageRendering: 'pixelated' }}>
-            <div
-              className={`h-full transition-all duration-1000 ${
-                isBreak ? 'bg-blue-500' : 'bg-green-500'
-              }`}
-              style={{
-                width: `${((isBreak ? breakLength : focusLength) - minutes - (seconds > 0 ? 1 : 0)) / (isBreak ? breakLength : focusLength) * 100}%`,
-                imageRendering: 'pixelated'
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="flex justify-center gap-4 relative z-10">
-          <button
-            onClick={toggleTimer}
-            className={`flex items-center gap-2 px-8 py-4 font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg border-4 ${
-              isActive
-                ? 'bg-red-500 hover:bg-red-600 text-white border-red-700'
-                : 'bg-green-600 hover:bg-green-700 text-white border-green-800'
-            }`}
-            style={{ imageRendering: 'pixelated' }}
-          >
-            {isActive ? (
-              <>
-                <Pause className="w-6 h-6" />
-                Pause
-              </>
-            ) : (
-              <>
-                <Play className="w-6 h-6" />
-                Start
-              </>
-            )}
-          </button>
-          
-          <button
-            onClick={resetTimer}
-            className="flex items-center gap-2 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg border-4 border-amber-700"
-            style={{ imageRendering: 'pixelated' }}
-          >
-            <RotateCcw className="w-6 h-6" />
-            Reset
-          </button>
-
-          {isBreak && (
+          {/* Control Buttons */}
+          <div className="flex justify-center gap-4 mb-8 relative z-10">
             <button
-              onClick={() => {
-                setIsActive(false);
-                setIsBreak(false);
-                setMinutes(DEBUG_MODE ? 0 : focusLength);
-                setSeconds(DEBUG_MODE ? 10 : 0);
-              }}
-              className="flex items-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-bold text-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg border-4 border-blue-700"
-              style={{ imageRendering: 'pixelated' }}
+              onClick={toggleTimer}
+              className={`flex items-center gap-3 px-10 py-5 font-bold text-xl rounded-2xl transition-all transform hover:scale-110 active:scale-95 shadow-2xl ${
+                isActive
+                  ? 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white'
+                  : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white'
+              }`}
             >
-              Skip Break
+              {isActive ? (
+                <>
+                  <Pause className="w-7 h-7" />
+                  Pause
+                </>
+              ) : (
+                <>
+                  <Play className="w-7 h-7" />
+                  Start
+                </>
+              )}
             </button>
-          )}
-        </div>
 
+            <button
+              onClick={resetTimer}
+              className="flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xl rounded-2xl transition-all transform hover:scale-110 active:scale-95 shadow-2xl"
+            >
+              <RotateCcw className="w-7 h-7" />
+              Reset
+            </button>
+
+            {isBreak && (
+              <button
+                onClick={() => {
+                  setIsActive(false);
+                  setIsBreak(false);
+                  setMinutes(DEBUG_MODE ? 0 : focusLength);
+                  setSeconds(DEBUG_MODE ? 10 : 0);
+                }}
+                className="flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-bold text-xl rounded-2xl transition-all transform hover:scale-110 active:scale-95 shadow-2xl"
+              >
+                Skip Break
+              </button>
+            )}
+          </div>
+
+          {/* Earnings Display */}
           {!isBreak && (
-            <div className="mt-8 text-center relative z-10">
-              <div className="inline-block bg-amber-200 border-4 border-amber-600 px-6 py-3" style={{ imageRendering: 'pixelated' }}>
-                <p className={`${getTextClass(isDaytime, 'primary')} font-bold flex items-center justify-center gap-2`}>
+            <div className="text-center relative z-10">
+              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-100 to-yellow-100 dark:from-amber-900/70 dark:to-yellow-900/70 rounded-2xl px-8 py-4 shadow-lg border-2 border-amber-300 dark:border-amber-700">
+                <Sparkles className="w-6 h-6 text-amber-500" />
+                <p className="font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                   Complete this session to earn
-                  <span className="text-amber-700 text-xl flex items-center gap-1">
+                  <span className="flex items-center gap-2 text-2xl text-amber-600 dark:text-amber-400">
                     <img
                       src={getAssetPath('assets/coin.png')}
                       alt="Coin"
-                      className="w-8 h-8"
+                      className="w-10 h-10"
                       style={{ imageRendering: 'pixelated' }}
                     />
                     10
@@ -353,23 +364,22 @@ export default function Timer({
           )}
         </div>
 
-        {/* Character Box - 40% Square */}
+        {/* Character Card - 40% */}
         <div
-          className="border-4 border-green-800 shadow-2xl border-8 border-green-800 bg-amber-100 relative"
-          style={{ width: 'calc(40% - 24px)', aspectRatio: '1/1' }}
+          className="bg-white/40 dark:bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl border-2 border-white/50 dark:border-white/20 relative"
+          style={{ width: '40%', aspectRatio: '1/1' }}
           onDrop={handleDrinkDrop}
           onDragOver={handleDragOver}
         >
           {/* Use Drink Button */}
           <button
             onClick={() => setShowDrinkModal(true)}
-            className="absolute top-4 right-4 z-20 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 transition-all transform hover:scale-105 flex items-center gap-2"
-            style={{ imageRendering: 'pixelated' }}
+            className="absolute top-6 right-6 z-20 px-6 py-3 bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 flex items-center gap-2 shadow-xl"
           >
             <img
               src={getAssetPath('assets/mint-tea.png')}
               alt="Drink"
-              className="w-6 h-6"
+              className="w-7 h-7"
               style={{ imageRendering: 'pixelated' }}
             />
             Use Drink
@@ -378,45 +388,45 @@ export default function Timer({
           <div className="relative w-full h-full flex items-center justify-center p-8">
             {/* Drink effect notification */}
             {drinkEffect && (
-              <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-30 animate-fade-up">
-                <div className="text-white font-bold text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              <div className="absolute top-24 left-1/2 transform -translate-x-1/2 z-30 animate-fade-up">
+                <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-2xl px-6 py-3 rounded-2xl shadow-2xl">
                   ✨ {drinkEffect} ✨
                 </div>
               </div>
             )}
 
-            {/* Active drink on table coaster */}
+            {/* Active drink on table */}
             {activeDrink && (
               <div
                 className="absolute z-20"
                 style={{ left: '61%', top: '72%', transform: 'translate(-50%, -50%)' }}
               >
-                {/* Drink only - no background circle */}
                 <img
                   src={getAssetPath(`assets/${RECIPES[activeDrink].image}`)}
                   alt={RECIPES[activeDrink].name}
-                  className="w-32 h-32"
+                  className="w-32 h-32 drop-shadow-2xl"
                   style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
                 />
               </div>
             )}
 
+            {/* Animated character */}
             <img
               src={getAssetPath('assets/girl-writing1.png')}
               alt="Girl Writing"
-              className="max-w-full max-h-full absolute animate-writing-1 object-contain"
+              className="max-w-full max-h-full absolute animate-writing-1 object-contain drop-shadow-2xl"
               style={{ imageRendering: 'pixelated' }}
             />
             <img
               src={getAssetPath('assets/girl-writing2.png')}
               alt="Girl Writing"
-              className="max-w-full max-h-full absolute animate-writing-2 object-contain"
+              className="max-w-full max-h-full absolute animate-writing-2 object-contain drop-shadow-2xl"
               style={{ imageRendering: 'pixelated' }}
             />
             <img
               src={getAssetPath('assets/girl-writing3.png')}
               alt="Girl Writing"
-              className="max-w-full max-h-full absolute animate-writing-3 object-contain"
+              className="max-w-full max-h-full absolute animate-writing-3 object-contain drop-shadow-2xl"
               style={{ imageRendering: 'pixelated' }}
             />
           </div>
@@ -425,15 +435,21 @@ export default function Timer({
 
       {/* Drink Selection Modal */}
       {showDrinkModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 pointer-events-none">
-          <div className="bg-amber-100 border-8 border-green-800 p-8 max-w-2xl max-h-[80vh] overflow-y-auto pointer-events-auto" onClick={(e) => e.stopPropagation()}>
-            <h3 className={`text-3xl font-bold ${getTextClass(isDaytime, 'primary')} mb-6 text-center`}>Select a Drink</h3>
-            <p className={`text-center ${getTextClass(isDaytime, 'secondary')} font-semibold mb-6`}>Drag a drink to the girl's table to activate it!</p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl p-10 max-w-3xl max-h-[85vh] overflow-y-auto shadow-2xl border-2 border-white/50">
+            <h3 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4 text-center">
+              Select a Drink
+            </h3>
+            <p className="text-center text-gray-600 dark:text-gray-300 font-semibold mb-8 text-lg">
+              Drag a drink to the girl's table to activate it!
+            </p>
 
             {Object.keys(brewedDrinks).length === 0 ? (
-              <p className={`text-center ${getTextClass(isDaytime, 'secondary')} font-semibold`}>No drinks available! Brew some drinks in the Kitchen first.</p>
+              <p className="text-center text-gray-500 dark:text-gray-400 font-semibold text-lg">
+                No drinks available! Brew some drinks in the Kitchen first.
+              </p>
             ) : (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-6">
                 {Object.entries(brewedDrinks)
                   .filter(([_, count]) => count > 0)
                   .map(([drinkId, count]) => {
@@ -443,20 +459,18 @@ export default function Timer({
                         key={drinkId}
                         draggable="true"
                         onDragStart={(e) => handleDrinkDragStart(e, drinkId)}
-                        onDragEnd={() => {}}
-                        className="border-4 border-green-800 p-4 text-center bg-white cursor-grab active:cursor-grabbing hover:scale-105 transition-transform select-none"
-                        style={{ imageRendering: 'pixelated' }}
+                        className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 text-center cursor-grab active:cursor-grabbing hover:scale-110 transition-all duration-300 shadow-xl border-2 border-gray-200 dark:border-gray-700 select-none"
                       >
                         <img
                           src={getAssetPath(`assets/${recipe.image}`)}
                           alt={recipe.name}
-                          className="w-20 h-20 mx-auto mb-2 pointer-events-none"
+                          className="w-24 h-24 mx-auto mb-3 drop-shadow-lg pointer-events-none"
                           style={{ imageRendering: 'pixelated' }}
                           draggable="false"
                         />
-                        <div className={`font-bold ${getTextClass(isDaytime, 'primary')} text-sm mb-1 pointer-events-none`}>{recipe.name}</div>
-                        <div className="text-xs text-purple-600 font-semibold mb-1 pointer-events-none">{recipe.effect}</div>
-                        <div className="text-amber-600 font-bold pointer-events-none">×{count}</div>
+                        <div className="font-bold text-gray-800 dark:text-gray-200 text-base mb-2 pointer-events-none">{recipe.name}</div>
+                        <div className="text-sm text-purple-600 dark:text-purple-400 font-semibold mb-2 pointer-events-none">{recipe.effect}</div>
+                        <div className="text-amber-600 dark:text-amber-400 font-bold text-lg pointer-events-none">×{count}</div>
                       </div>
                     );
                   })}
@@ -465,8 +479,7 @@ export default function Timer({
 
             <button
               onClick={() => setShowDrinkModal(false)}
-              className="mt-6 w-full px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-bold border-4 border-red-700 transition-all"
-              style={{ imageRendering: 'pixelated' }}
+              className="mt-8 w-full px-8 py-4 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-lg rounded-2xl transition-all shadow-xl transform hover:scale-105"
             >
               Close
             </button>

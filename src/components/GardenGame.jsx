@@ -456,7 +456,7 @@ export default function GardenGame({
     showToast(`Harvested ${tile.plantType}!`, '✂️');
   };
 
-  // Game loop for plant growth - 25 minute real-time growth
+  // Game loop for plant growth - 1 minute for testing
   useEffect(() => {
     gameLoopRef.current = setInterval(() => {
       setGrid(prev => {
@@ -473,17 +473,17 @@ export default function GardenGame({
 
               let newGrowthStage = tile.growthStage;
 
-              // Stage 0 (planted-seed) -> Stage 1: Need 2 waters + 25 minutes
+              // Stage 0 (planted-seed) -> Stage 1: Need 2 waters + 1 minute
               if (tile.growthStage === PLANT_STAGES.SEEDLING &&
                   tile.waterCount >= 2 &&
-                  minutesSincePlanted >= 25) {
+                  minutesSincePlanted >= 1) {
                 newGrowthStage = PLANT_STAGES.GROWTH1;
               }
 
-              // Stage 1 (plant) -> Stage 3 (mature): Need 2 more waters + another 25 minutes
+              // Stage 1 (plant) -> Stage 3 (mature): Need 2 more waters + another 1 minute
               if (tile.growthStage === PLANT_STAGES.GROWTH1 &&
                   tile.waterCount >= 2 &&
-                  minutesSincePlanted >= 50) {
+                  minutesSincePlanted >= 2) {
                 newGrowthStage = PLANT_STAGES.MATURE;
               }
 
@@ -590,77 +590,81 @@ export default function GardenGame({
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center overflow-hidden">
 
-      {/* Toolbar - bottom right corner */}
-      <div className="fixed bottom-8 right-8 bg-amber-900/95 p-4 rounded-2xl border-4 border-amber-950 z-50">
+      {/* Modern Toolbar - bottom right corner */}
+      <div className="fixed bottom-8 right-8 bg-white/40 dark:bg-black/40 backdrop-blur-2xl p-4 rounded-3xl border-2 border-white/50 dark:border-white/20 shadow-2xl z-50">
         <div className="flex flex-col gap-3">
           <button
             onClick={() => setSelectedTool(TOOLS.HOE)}
-            className={`w-20 h-20 rounded-xl border-4 transition-all transform hover:scale-110 ${
+            className={`w-20 h-20 rounded-2xl transition-all transform hover:scale-110 active:scale-95 shadow-lg ${
               selectedTool === TOOLS.HOE
-                ? 'bg-green-400 border-green-600 scale-110'
-                : 'bg-amber-200 border-amber-600 hover:bg-amber-300'
+                ? 'bg-gradient-to-br from-green-400 to-emerald-500 scale-110 shadow-xl'
+                : 'bg-white/60 dark:bg-gray-800/60 hover:bg-white/80 dark:hover:bg-gray-700/80'
             }`}
             title="Hoe"
           >
             <img
               src={getAssetPath('assets/hoe.png')}
               alt="Hoe"
-              className="w-full h-full object-contain p-2"
+              className="w-full h-full object-contain p-3"
+              style={{ imageRendering: 'pixelated' }}
             />
           </button>
 
           <button
             onClick={handleSeedbagClick}
-            className={`w-20 h-20 rounded-xl border-4 transition-all transform hover:scale-110 ${
+            className={`w-20 h-20 rounded-2xl transition-all transform hover:scale-110 active:scale-95 shadow-lg ${
               selectedTool === TOOLS.SEEDBAG
-                ? 'bg-green-400 border-green-600 scale-110'
-                : 'bg-amber-200 border-amber-600 hover:bg-amber-300'
+                ? 'bg-gradient-to-br from-green-400 to-emerald-500 scale-110 shadow-xl'
+                : 'bg-white/60 dark:bg-gray-800/60 hover:bg-white/80 dark:hover:bg-gray-700/80'
             }`}
             title="Seed Bag"
           >
             <img
               src={getAssetPath('assets/seedbag.png')}
               alt="Seed Bag"
-              className="w-full h-full object-contain p-2"
+              className="w-full h-full object-contain p-3"
+              style={{ imageRendering: 'pixelated' }}
             />
           </button>
 
           <button
             onClick={() => setSelectedTool(TOOLS.WATERING_CAN)}
-            className={`w-20 h-20 rounded-xl border-4 transition-all transform hover:scale-110 ${
+            className={`w-20 h-20 rounded-2xl transition-all transform hover:scale-110 active:scale-95 shadow-lg ${
               selectedTool === TOOLS.WATERING_CAN
-                ? 'bg-green-400 border-green-600 scale-110'
-                : 'bg-amber-200 border-amber-600 hover:bg-amber-300'
+                ? 'bg-gradient-to-br from-green-400 to-emerald-500 scale-110 shadow-xl'
+                : 'bg-white/60 dark:bg-gray-800/60 hover:bg-white/80 dark:hover:bg-gray-700/80'
             }`}
             title="Watering Can"
           >
             <img
               src={getAssetPath('assets/watering-can.png')}
               alt="Watering Can"
-              className="w-full h-full object-contain p-2"
+              className="w-full h-full object-contain p-3"
+              style={{ imageRendering: 'pixelated' }}
             />
           </button>
 
           <button
             onClick={() => setSelectedTool(TOOLS.SCISSORS)}
-            className={`w-20 h-20 rounded-xl border-4 transition-all transform hover:scale-110 ${
+            className={`w-20 h-20 rounded-2xl transition-all transform hover:scale-110 active:scale-95 shadow-lg ${
               selectedTool === TOOLS.SCISSORS
-                ? 'bg-green-400 border-green-600 scale-110'
-                : 'bg-amber-200 border-amber-600 hover:bg-amber-300'
+                ? 'bg-gradient-to-br from-green-400 to-emerald-500 scale-110 shadow-xl'
+                : 'bg-white/60 dark:bg-gray-800/60 hover:bg-white/80 dark:hover:bg-gray-700/80'
             }`}
             title="Scissors"
           >
             <img
               src={getAssetPath('assets/scissors.png')}
               alt="Scissors"
-              className="w-full h-full object-contain p-2"
+              className="w-full h-full object-contain p-3"
+              style={{ imageRendering: 'pixelated' }}
             />
           </button>
         </div>
       </div>
 
-      {/* Controls hint */}
-      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-8 py-3 rounded-full text-base font-bold z-40">
+      {/* Modern Controls hint */}
+      <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-full text-base font-bold z-40 shadow-xl backdrop-blur-sm">
         WASD - Move | E - Use Tool
       </div>
 
@@ -756,31 +760,35 @@ export default function GardenGame({
       </div>
 
 
-      {/* Seed Selection Modal */}
+      {/* Modern Seed Selection Modal */}
       {showSeedModal && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[100]">
-          <div className="bg-amber-100 p-8 rounded-3xl border-8 border-amber-950 max-w-md">
-            <h2 className="text-3xl font-bold text-amber-950 mb-6 text-center">Select Seeds</h2>
-            <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100]">
+          <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl p-10 max-w-md shadow-2xl border-2 border-white/50">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-8 text-center">
+              Select Seeds
+            </h2>
+            <div className="grid grid-cols-2 gap-4 mb-8">
               {Object.entries(seedInventory).map(([seedType, count]) => (
                 <button
                   key={seedType}
                   onClick={() => handleSeedSelect(seedType)}
                   disabled={count <= 0}
-                  className={`p-4 rounded-xl border-4 font-bold text-lg transition-all ${
+                  className={`p-5 rounded-2xl font-bold text-lg transition-all transform shadow-lg ${
                     count > 0
-                      ? 'bg-green-200 border-green-600 hover:bg-green-300 hover:scale-105'
-                      : 'bg-gray-300 border-gray-500 opacity-50 cursor-not-allowed'
-                  } ${selectedSeed === seedType ? 'ring-4 ring-yellow-400' : ''}`}
+                      ? 'bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/50 dark:to-emerald-900/50 border-2 border-green-300 dark:border-green-700 hover:scale-110 active:scale-95'
+                      : 'bg-gray-200 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 opacity-50 cursor-not-allowed'
+                  } ${selectedSeed === seedType ? 'ring-4 ring-yellow-400 scale-105' : ''}`}
                 >
-                  <div className="capitalize text-amber-950">{seedType}</div>
-                  <div className="text-2xl text-green-700">{count}</div>
+                  <div className="capitalize text-gray-800 dark:text-gray-200">{seedType}</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-2">
+                    {count}
+                  </div>
                 </button>
               ))}
             </div>
             <button
               onClick={() => setShowSeedModal(false)}
-              className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl border-4 border-red-700 transition-all hover:scale-105"
+              className="w-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-xl transform hover:scale-105 active:scale-95"
             >
               Cancel
             </button>
