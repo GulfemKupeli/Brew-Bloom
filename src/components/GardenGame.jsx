@@ -87,7 +87,7 @@ const createInitialGrid = () => {
         plant: null,
         plantType: null,
         growthStage: 0,
-        watered: false,
+        waterCount: 0, // Track how many times watered
         harvestable: false,
         plantedTime: null,
       });
@@ -361,7 +361,7 @@ export default function GardenGame({
         plant: true,
         plantType: plantType,
         growthStage: PLANT_STAGES.SEEDLING,
-        watered: false,
+        waterCount: 0,
         harvestable: false,
         plantedTime: Date.now(),
       };
@@ -385,13 +385,17 @@ export default function GardenGame({
       return;
     }
 
-    if (tile.watered) {
-      showToast('This plant is already watered!', '💧');
+    if (tile.harvestable) {
+      showToast('This plant is ready to harvest!', '✨');
       return;
     }
 
-    if (tile.harvestable) {
-      showToast('This plant is ready to harvest!', '✨');
+    // Check if already watered enough for current stage
+    const maxWaters = tile.growthStage === PLANT_STAGES.SEEDLING ? 2 :
+                      tile.growthStage === PLANT_STAGES.GROWTH1 ? 2 : 0;
+
+    if (tile.waterCount >= maxWaters && !tile.harvestable) {
+      showToast('Plant is fully watered for this stage!', '💧');
       return;
     }
 
@@ -404,13 +408,13 @@ export default function GardenGame({
       newGrid[y] = [...newGrid[y]];
       newGrid[y][x] = {
         ...newGrid[y][x],
-        watered: true,
+        waterCount: tile.waterCount + 1,
         type: TILE_TYPES.TILLED_SOIL_WATERED,
       };
       return newGrid;
     });
 
-    showToast('Watered!', '💧');
+    showToast(`Watered! (${tile.waterCount + 1}/${maxWaters})`, '💧');
   };
 
   // Harvest plant
@@ -441,7 +445,7 @@ export default function GardenGame({
         plant: null,
         plantType: null,
         growthStage: 0,
-        watered: false,
+        waterCount: 0,
         harvestable: false,
         plantedTime: null,
         // Keep the soil type as is (TILLED_SOIL or TILLED_SOIL_WATERED stays)
@@ -452,7 +456,7 @@ export default function GardenGame({
     showToast(`Harvested ${tile.plantType}!`, '✂️');
   };
 
-  // Game loop for plant growth
+  // Game loop for plant growth - 25 minute real-time growth
   useEffect(() => {
     gameLoopRef.current = setInterval(() => {
       setGrid(prev => {
@@ -463,12 +467,25 @@ export default function GardenGame({
           for (let x = 0; x < GRID_WIDTH; x++) {
             const tile = newGrid[y][x];
 
-            if (tile.plant && tile.watered && !tile.harvestable) {
+            if (tile.plant && !tile.harvestable) {
               const timeSincePlanted = Date.now() - tile.plantedTime;
-              const secondsSincePlanted = timeSincePlanted / 1000;
+              const minutesSincePlanted = timeSincePlanted / (1000 * 60);
 
-              // Growth stages every 10 seconds
-              const newGrowthStage = Math.min(PLANT_STAGES.MATURE, Math.floor(secondsSincePlanted / 10));
+              let newGrowthStage = tile.growthStage;
+
+              // Stage 0 (planted-seed) -> Stage 1: Need 2 waters + 25 minutes
+              if (tile.growthStage === PLANT_STAGES.SEEDLING &&
+                  tile.waterCount >= 2 &&
+                  minutesSincePlanted >= 25) {
+                newGrowthStage = PLANT_STAGES.GROWTH1;
+              }
+
+              // Stage 1 (plant) -> Stage 3 (mature): Need 2 more waters + another 25 minutes
+              if (tile.growthStage === PLANT_STAGES.GROWTH1 &&
+                  tile.waterCount >= 2 &&
+                  minutesSincePlanted >= 50) {
+                newGrowthStage = PLANT_STAGES.MATURE;
+              }
 
               if (newGrowthStage !== tile.growthStage) {
                 hasChanges = true;
@@ -477,8 +494,8 @@ export default function GardenGame({
                 newGrid[y][x] = {
                   ...tile,
                   growthStage: newGrowthStage,
+                  waterCount: 0, // Reset water count for next stage
                   harvestable: newGrowthStage === PLANT_STAGES.MATURE,
-                  watered: newGrowthStage < PLANT_STAGES.MATURE,
                 };
               }
             }
@@ -487,7 +504,7 @@ export default function GardenGame({
 
         return hasChanges ? newGrid : prev;
       });
-    }, 1000);
+    }, 60000); // Check every minute
 
     return () => {
       if (gameLoopRef.current) {
@@ -738,18 +755,6 @@ export default function GardenGame({
         />
       </div>
 
-      {/* Seed inventory at bottom left */}
-      <div className="fixed bottom-8 left-8 bg-amber-900/95 p-4 rounded-2xl border-4 border-amber-950 z-50">
-        <h3 className="text-lg font-bold text-amber-100 mb-3 text-center">Seeds</h3>
-        <div className="flex flex-col gap-2">
-          {Object.entries(seedInventory).map(([seedType, count]) => (
-            <div key={seedType} className="flex items-center gap-3 bg-amber-200 px-4 py-2 rounded-lg border-2 border-amber-950">
-              <div className="text-sm font-bold text-amber-950 capitalize w-24">{seedType}</div>
-              <div className="text-xl font-bold text-green-700">{count}</div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Seed Selection Modal */}
       {showSeedModal && (
